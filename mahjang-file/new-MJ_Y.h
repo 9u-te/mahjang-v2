@@ -16,8 +16,7 @@ class YAKU{
             naki_yaku_man = ny;
         };
 };    
-        //役を見つける
-        std::vector<YAKU> YAKU_CHECK(const PLAYER &player);
+        
 
 
  //1翻役---------------------------------------------------------------------------

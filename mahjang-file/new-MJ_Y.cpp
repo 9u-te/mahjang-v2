@@ -55,6 +55,8 @@ inline YAKU PURE_NINE_GATES(0, 0, 2, false);//純正九蓮宝燈
 inline YAKU BIG_FOUR_PLEASURE(0, 0, 2, true);//大四喜*
 
 
+
+
 //1翻役-------------------------------------------
 
 bool REACH_F(const PLAYER &P){
@@ -106,12 +108,18 @@ bool RED_F(const PLAYER &P){
 }
 
 bool TWO_TO_EIGHT_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.push_back(P.AGARI);
+    
     for(MAHJANG_HI YAOCHU : {M1, M9, P1, P9, S1,S9, TON, NAM, SHA, PAY, HAK, HAT, CHU}){
-        if(std::find(P.TEHAI.begin(), P.TEHAI.end(), YAOCHU) != P.TEHAI.end()) return false;
+        if(std::find(tehai.begin(), tehai.end(), YAOCHU) != tehai.end()) return false;
         if(std::find(P.PON.begin(), P.PON.end(), YAOCHU) != P.PON.end()) return false;
-        if(std::find(P.CHI.begin(), P.CHI.end(), YAOCHU) != P.CHI.end()) return false;
         if(std::find(P.ANKAN.begin(), P.ANKAN.end(), YAOCHU) != P.ANKAN.end()) return false;
         if(std::find(P.MINKAN.begin(), P.MINKAN.end(), YAOCHU) != P.MINKAN.end()) return false;
+        if(P.HEAD_PAIR == YAOCHU) return false;
+    }
+    for(MAHJANG_HI YAOCHU : {M1, M7, P1, P7, S1, S7}){
+        if(std::find(P.CHI.begin(), P.CHI.end(), YAOCHU) != P.CHI.end()) return false;
     }
     return true;
 }
@@ -119,8 +127,15 @@ bool TWO_TO_EIGHT_F(const PLAYER &P){
 bool PEACE_F(const PLAYER &P){
     if(P.SHUNTSU.size() != 4) return false;
     if(P.HEAD_PAIR == P.JIFU || P.HEAD_PAIR == BAFU) return false;
+    if(P.HEAD_PAIR.TYPE == 4) return false;
+
     for(MAHJANG_HI shu : P.SHUNTSU){
-        if(P.AGARI == shu || P.AGARI == shu + 2) return true;
+        if(P.AGARI == shu || P.AGARI == shu + 2){
+            if(shu.RANK == 1 && P.AGARI == shu + 2) continue;
+            if(shu.RANK == 7 && P.AGARI == shu) continue;
+            
+            return true;
+        };
     }
     return false;    
 }
@@ -141,19 +156,143 @@ bool UNDERRIVER_F(const PLAYER &P){
     return P.AGARI != P.TSUMO && YAMA.empty();
 }
 
-bool ONE_CHOT_F(const PLAYER &P){
+bool ONE_SHOT_F(const PLAYER &P){
     return P.ONE_SHOT_FRAG;
 }
 
 //2翻役-----------------------------------------------------------------
 
-bool W_REACH(const PLAYER &P){
+bool W_REACH_F(const PLAYER &P){
     return P.W_REACH_FRAG;
 }
 
-
-
-std::vector<YAKU> YAKU_CHECK(PLAYER P){
-    
+bool SEVEN_PAIRS_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> toitsu;
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.push_back(P.AGARI);
+    for(MAHJANG_HI HI : tehai){
+        if(std::count(tehai.begin(), tehai.end(), HI) == 2){
+            if(std::find(toitsu.begin(), toitsu.end(), HI) == toitsu.end()){
+                toitsu.push_back(HI);
+            }
+        }
+    }
+    return toitsu.size() == 7;
 }
+
+bool SMALL_THREE_ORIGIN_F(const PLAYER &P){
+    if(WHITE_F(P) + GREEN_F(P)+ RED_F(P) != 2) return false;
+    if(P.HEAD_PAIR != HAK && P.HEAD_PAIR != HAT && P.HEAD_PAIR != CHU){
+        return false;
+    }
+    return true;
+}
+
+bool THREE_COLOR_SAME_ORDER_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> shuntsu = P.SHUNTSU;
+    shuntsu.insert(shuntsu.end(), P.CHI.begin(), P.CHI.end());
+    if(shuntsu.size() < 3) return false;
+    for(MAHJANG_HI shu : shuntsu){
+        if(shu.TYPE != 0) return false;
+        MAHJANG_HI pshu(1, shu.RANK, 0);
+        MAHJANG_HI sshu(2, shu.RANK, 0);
+        if(std::find(shuntsu.begin(), shuntsu.end(), pshu) != shuntsu.end() && std::find(shuntsu.begin(), shuntsu.end(), sshu) != shuntsu.end()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool THREE_COLOR_SAME_COLORS_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> kotsu = P.ANKO;
+    kotsu.insert(kotsu.end(), P.ANKAN.begin(), P.ANKAN.end());
+    kotsu.insert(kotsu.end(), P.PON.begin(), P.PON.end());
+    kotsu.insert(kotsu.end(), P.MINKAN.begin(), P.MINKAN.end());
+    if(kotsu.size() < 3) return false;
+    for(MAHJANG_HI anko : kotsu){
+        if(anko.TYPE != 0) return false;
+        MAHJANG_HI panko(1, anko.RANK, 0);
+        MAHJANG_HI sanko(2, anko.RANK, 0);
+        if(std::find(kotsu.begin(), kotsu.end(), panko) != kotsu.end() && std::find(kotsu.begin(), kotsu.end(), sanko) != kotsu.end()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool THREE_SWORD_F(const PLAYER &P){
+    if(P.MINKAN.size() + P.ANKAN.size() ==  3) return true;
+    return false;
+}
+
+bool TOYTOY_F(const PLAYER &P){
+    if(P.ANKO.size() + P.PON.size() + P.ANKAN.size() + P.MINKAN.size() == 4) return true;
+    return false;
+}
+
+bool THREE_DARK_SAME_F(const PLAYER &P){
+    if(P.ANKO.size() == 3) return true;
+    return false;
+}
+
+bool MIXED_F(const PLAYER &P){
+    if(P.SHUNTSU.empty() && P.CHI.empty()) return false;
+
+    for(MAHJANG_HI HI : P.ANKO){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false;
+    }
+    for(MAHJANG_HI HI : P.PON){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false; 
+    }
+    for(MAHJANG_HI HI : P.MINKAN){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false; 
+    }
+    for(MAHJANG_HI HI : P.ANKAN){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false; 
+    }
+
+    for(MAHJANG_HI HI : P.CHI){
+        if(1 != HI.RANK && HI.RANK != 7) return false; 
+    }
+    for(MAHJANG_HI HI : P.SHUNTSU){
+        if(1 != HI.RANK && HI.RANK != 7) return false; 
+    }
+    return true;
+}
+
+bool STRAIGHT_F(const PLAYER &P){
+    if(P.SHUNTSU.size() + P.CHI.size() < 3) return false;
+    std::vector<MAHJANG_HI> shuntsu = P.SHUNTSU;
+    shuntsu.insert(shuntsu.end(), P.CHI.begin(), P.CHI.end());
+    for(int i = 0; i < 3; i++){
+        auto it123 = std::find(shuntsu.begin(), shuntsu.end(), MAHJANG_HI(i, 1, 0));
+        auto it456 = std::find(shuntsu.begin(), shuntsu.end(), MAHJANG_HI(i, 4, 0));
+        auto it789 = std::find(shuntsu.begin(), shuntsu.end(), MAHJANG_HI(i, 7, 0));
+        if(it123 != shuntsu.end() && it456 != shuntsu.end() && it789 != shuntsu.end()) return true;
+    }
+    return false;   
+}
+
+bool MIXED_OLD_HEAD_F(const PLAYER &P){
+    if(!P.SHUNTSU.empty()) return false;
+    for(MAHJANG_HI HI : P.ANKO){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false;
+    }
+    for(MAHJANG_HI HI : P.PON){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false; 
+    }
+    for(MAHJANG_HI HI : P.MINKAN){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false; 
+    }
+    for(MAHJANG_HI HI : P.ANKAN){
+        if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false; 
+    }
+    if(P.HEAD_PAIR.TYPE < 3 && (1 != P.HEAD_PAIR.RANK && P.HEAD_PAIR.RANK != 9)) return false;
+
+    return true;
+}
+
+
+
+
 

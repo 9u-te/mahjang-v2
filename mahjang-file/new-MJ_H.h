@@ -71,15 +71,15 @@ inline MAHJANG_HI S9(2, 9, 0);
 inline MAHJANG_HI S5_RED(2, 5, 1);
 
 //風牌
-inline MAHJANG_HI TON(2, 1, 0);
-inline MAHJANG_HI NAM(2, 2, 0);
-inline MAHJANG_HI SHA(2, 3, 0);
-inline MAHJANG_HI PAY(2, 4, 0);
+inline MAHJANG_HI TON(3, 1, 0);
+inline MAHJANG_HI NAM(3, 2, 0);
+inline MAHJANG_HI SHA(3, 3, 0);
+inline MAHJANG_HI PAY(3, 4, 0);
 
 //三元牌
-inline MAHJANG_HI HAK(2, 1, 0);
-inline MAHJANG_HI HAT(2, 2, 0);
-inline MAHJANG_HI CHU(2, 3, 0);
+inline MAHJANG_HI HAK(4, 1, 0);
+inline MAHJANG_HI HAT(4, 2, 0);
+inline MAHJANG_HI CHU(4, 3, 0);
 
 
 
