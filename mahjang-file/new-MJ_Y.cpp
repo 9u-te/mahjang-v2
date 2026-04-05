@@ -141,6 +141,7 @@ bool PEACE_F(const PLAYER &P){
 }
 
 bool ONE_ORDER_F(const PLAYER &P){
+    if(!P.MENZEN) return false;
     if(P.SHUNTSU.size() < 2) return false;
     for(MAHJANG_HI shu : P.SHUNTSU){
         if(std::count(P.SHUNTSU.begin(), P.SHUNTSU.end(), shu) >= 2) return true;
@@ -157,6 +158,7 @@ bool UNDERRIVER_F(const PLAYER &P){
 }
 
 bool ONE_SHOT_F(const PLAYER &P){
+    if(!P.MENZEN) return false;
     return P.ONE_SHOT_FRAG;
 }
 
@@ -231,7 +233,7 @@ bool TOYTOY_F(const PLAYER &P){
 }
 
 bool THREE_DARK_SAME_F(const PLAYER &P){
-    if(P.ANKO.size() == 3) return true;
+    if(P.ANKO.size() + P.ANKAN.size() == 3) return true;
     return false;
 }
 
@@ -294,6 +296,59 @@ bool MIXED_OLD_HEAD_F(const PLAYER &P){
     return true;
 }
 
+//3翻役------------------------------------------------------------------------------------
+
+bool MIXED_ONE_COLOR_F(const PLAYER &P){
+    if(PURE_ONE_COLOR_F(P)) return false;
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.insert(tehai.end(), P.PON.begin(), P.PON.end());
+    tehai.insert(tehai.end(), P.CHI.begin(), P.CHI.end());
+    tehai.insert(tehai.end(), P.ANKAN.begin(), P.ANKAN.end());
+    tehai.insert(tehai.end(), P.MINKAN.begin(), P.MINKAN.end());
+    tehai.push_back(P.AGARI);
+    std::sort(tehai.begin(), tehai.end());
+    
+    int type = tehai[0].TYPE;
+    for(MAHJANG_HI HI : tehai){
+        if(HI.TYPE < 3 && HI.TYPE != type) return false;
+    }
+    return true;
+}
+
+bool PURE_MIXED_F(const PLAYER &P){
+    if(P.SHUNTSU.empty() && P.CHI.size()) return false;
+
+    for(MAHJANG_HI HI : P.SHUNTSU){
+        if(HI.RANK != 1 && HI.RANK != 7) return false;
+    }
+    for(MAHJANG_HI HI : P.CHI){
+        if(HI.RANK != 1 && HI.RANK != 7) return false;
+    }
+    for(MAHJANG_HI HI : P.ANKO){
+        if(HI.TYPE >= 3 || HI.RANK != 1 && HI.RANK != 9) return false;
+    }
+    for(MAHJANG_HI HI : P.PON){
+        if(HI.TYPE >= 3 || HI.RANK != 1 && HI.RANK != 9) return false;
+    }
+    for(MAHJANG_HI HI : P.ANKAN){
+        if(HI.TYPE >= 3 || HI.RANK != 1 && HI.RANK != 9) return false;
+    }
+    for(MAHJANG_HI HI : P.MINKAN){
+        if(HI.TYPE >= 3 || HI.RANK != 1 && HI.RANK != 9) return false;
+    }
+    if(P.HEAD_PAIR.TYPE >= 3 || P.HEAD_PAIR.RANK != 1 && P.HEAD_PAIR.RANK  != 9) return false;
+    
+    return true;
+}
+
+bool TWO_ORDER_F(const PLAYER &P){
+    if(!P.MENZEN) return false;
+    if(P.SHUNTSU.size() != 4) return false;
+    for(MAHJANG_HI shu : P.SHUNTSU){
+        if(std::count(P.SHUNTSU.begin(), P.SHUNTSU.end(), shu) != 2) return false;
+    }
+    return true;
+}
 
 
 

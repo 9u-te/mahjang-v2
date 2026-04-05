@@ -48,12 +48,12 @@ class YAKU{
         bool MIXED_OLD_HEAD_F(const PLAYER &P);//混老頭
 
         //3翻役---------------------------------------------------------------------------
-        bool MIXED_ONE_COLOR_F();//混一色
-        bool PURE_MIXED_F();//純チャン
-        bool TWO_ORDER_F();//二盃口
+        bool MIXED_ONE_COLOR_F(const PLAYER &P);//混一色
+        bool PURE_MIXED_F(const PLAYER &P);//純チャン
+        bool TWO_ORDER_F(const PLAYER &P);//二盃口
         
         //6翻役---------------------------------------------------------------------------
-        bool PURE_ONE_COLOR_F();//清一色
+        bool PURE_ONE_COLOR_F(const PLAYER &P);//清一色
         
         //役満---------------------------------------------------------------------------
         bool BIG_THREE_ORIGIN_F();//大三元
