@@ -26,6 +26,7 @@ class PLAYER{
         
 
         bool REACH_STICK;//立直棒
+        bool W_REACH_STICK;
         bool MENZEN;
         bool ONE_SHOT_FRAG;
         bool W_REACH_FRAG;
