@@ -110,7 +110,7 @@ bool RED_F(const PLAYER &P){
 bool TWO_TO_EIGHT_F(const PLAYER &P){
     std::vector<MAHJANG_HI> tehai = P.TEHAI;
     tehai.push_back(P.AGARI);
-    
+
     for(MAHJANG_HI YAOCHU : {M1, M9, P1, P9, S1,S9, TON, NAM, SHA, PAY, HAK, HAT, CHU}){
         if(std::find(tehai.begin(), tehai.end(), YAOCHU) != tehai.end()) return false;
         if(std::find(P.PON.begin(), P.PON.end(), YAOCHU) != P.PON.end()) return false;
@@ -193,7 +193,7 @@ bool THREE_COLOR_SAME_ORDER_F(const PLAYER &P){
     shuntsu.insert(shuntsu.end(), P.CHI.begin(), P.CHI.end());
     if(shuntsu.size() < 3) return false;
     for(MAHJANG_HI shu : shuntsu){
-        if(shu.TYPE != 0) return false;
+        if(shu.TYPE != 0) continue;;
         MAHJANG_HI pshu(1, shu.RANK, 0);
         MAHJANG_HI sshu(2, shu.RANK, 0);
         if(std::find(shuntsu.begin(), shuntsu.end(), pshu) != shuntsu.end() && std::find(shuntsu.begin(), shuntsu.end(), sshu) != shuntsu.end()){
@@ -210,7 +210,7 @@ bool THREE_COLOR_SAME_COLORS_F(const PLAYER &P){
     kotsu.insert(kotsu.end(), P.MINKAN.begin(), P.MINKAN.end());
     if(kotsu.size() < 3) return false;
     for(MAHJANG_HI anko : kotsu){
-        if(anko.TYPE != 0) return false;
+        if(anko.TYPE != 0) continue;
         MAHJANG_HI panko(1, anko.RANK, 0);
         MAHJANG_HI sanko(2, anko.RANK, 0);
         if(std::find(kotsu.begin(), kotsu.end(), panko) != kotsu.end() && std::find(kotsu.begin(), kotsu.end(), sanko) != kotsu.end()){
@@ -237,7 +237,8 @@ bool THREE_DARK_SAME_F(const PLAYER &P){
 
 bool MIXED_F(const PLAYER &P){
     if(P.SHUNTSU.empty() && P.CHI.empty()) return false;
-
+    
+    if(P.HEAD_PAIR.TYPE < 3 && (1 != P.HEAD_PAIR.RANK && P.HEAD_PAIR.RANK != 9)) return false;
     for(MAHJANG_HI HI : P.ANKO){
         if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false;
     }
@@ -274,7 +275,8 @@ bool STRAIGHT_F(const PLAYER &P){
 }
 
 bool MIXED_OLD_HEAD_F(const PLAYER &P){
-    if(!P.SHUNTSU.empty()) return false;
+    if(!P.SHUNTSU.empty() || !P.CHI.empty()) return false;
+    
     for(MAHJANG_HI HI : P.ANKO){
         if(HI.TYPE < 3 && (1 != HI.RANK && HI.RANK != 9)) return false;
     }
