@@ -516,5 +516,53 @@ bool BIG_FOUR_PLEASURE_F(const PLAYER &P){
 }
 
 bool FOUR_DARK_SAME_SINGLE_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> mentsu = P.ANKO;
+    mentsu.insert(mentsu.begin(), P.ANKAN.begin(), P.ANKAN.end());
+    mentsu.insert(mentsu.begin(), P.MINKAN.begin(), P.MINKAN.end());
+    if(mentsu.size() != 4) return false;
+    if(P.HEAD_PAIR != P.AGARI) return false;
+    return false;
+}
 
+
+bool PURE_NINE_GATES_F(const PLAYER &P){
+    if(!P.MENZEN) return false;
+    if(!PURE_ONE_COLOR_F(P)) return false;
+    if(PURE_NINE_GATES_F(P)) return false;
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    int type = tehai[0].TYPE;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 1, 0)) != 3) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 2, 0)) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 3, 0)) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 4, 0)) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 5, 0)) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 6, 0)) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 7, 0)) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 8, 0)) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 9, 0)) != 3) return false;
+    if(P.AGARI.TYPE == type)
+    
+    return true;
+}
+
+bool THIRTEEN_ORPHANS_SUPER_F(const PLAYER &P){
+    if(!P.MENZEN) return false;
+    std::vector<MAHJANG_HI> toitsu;
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    
+    if(std::count(tehai.begin(), tehai.end(), M1) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), M9) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), P1) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), P9) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), S1) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), S9) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), TON) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), NAM) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), SHA) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), PAY) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), HAK) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), HAT) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), CHU) != 1) return false;
+    
+    return true;
 }
