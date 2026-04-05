@@ -392,6 +392,7 @@ bool CHAR_ONE_COLOR_F(const PLAYER &P){
     for(MAHJANG_HI HI : mentsu){
         if(HI.TYPE < 3) return false;
     }
+    return true;
 }
 
 bool GREEN_ONE_COLOR_F(const PLAYER &P){
@@ -528,7 +529,6 @@ bool FOUR_DARK_SAME_SINGLE_F(const PLAYER &P){
 bool PURE_NINE_GATES_F(const PLAYER &P){
     if(!P.MENZEN) return false;
     if(!PURE_ONE_COLOR_F(P)) return false;
-    if(PURE_NINE_GATES_F(P)) return false;
     std::vector<MAHJANG_HI> tehai = P.TEHAI;
     int type = tehai[0].TYPE;
     if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 1, 0)) != 3) return false;
@@ -540,7 +540,7 @@ bool PURE_NINE_GATES_F(const PLAYER &P){
     if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 7, 0)) != 1) return false;
     if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 8, 0)) != 1) return false;
     if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 9, 0)) != 3) return false;
-    if(P.AGARI.TYPE == type)
+    if(P.AGARI.TYPE != type) return false;
     
     return true;
 }
@@ -563,6 +563,6 @@ bool THIRTEEN_ORPHANS_SUPER_F(const PLAYER &P){
     if(std::count(tehai.begin(), tehai.end(), HAK) != 1) return false;
     if(std::count(tehai.begin(), tehai.end(), HAT) != 1) return false;
     if(std::count(tehai.begin(), tehai.end(), CHU) != 1) return false;
-    
+    if(P.AGARI.TYPE < 3 && P.AGARI.RANK != 1 && P.AGARI.RANK != 9) return false;
     return true;
 }
