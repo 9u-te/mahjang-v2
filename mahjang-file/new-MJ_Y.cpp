@@ -165,7 +165,7 @@ bool ONE_SHOT_F(const PLAYER &P){
 //2翻役-----------------------------------------------------------------
 
 bool W_REACH_F(const PLAYER &P){
-    return P.W_REACH_FRAG;
+    return P.W_REACH_STICK;
 }
 
 bool SEVEN_PAIRS_F(const PLAYER &P){
@@ -370,4 +370,132 @@ bool PURE_ONE_COLOR_F(const PLAYER &P){
 }
 
 //役満---------------------------------------------------------
+
+bool BIG_THREE_ORIGIN_F(const PLAYER &P){
+    if(WHITE_F(P) + GREEN_F(P)+ RED_F(P) == 3) return true;
+    return false;
+}
+
+bool FOUR_DARK_SAME_F(const PLAYER &P){
+    if(P.ANKAN.size() + P.ANKO.size() == 4) return true;
+    return false;
+}
+
+bool CHAR_ONE_COLOR_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> mentsu = P.ANKO;
+    mentsu.insert(mentsu.begin(), P.PON.begin(), P.PON.end());
+    mentsu.insert(mentsu.begin(), P.ANKAN.begin(), P.ANKAN.end());
+    mentsu.insert(mentsu.begin(), P.MINKAN.begin(), P.MINKAN.end());
+    mentsu.push_back(P.HEAD_PAIR);
+
+    for(MAHJANG_HI HI : mentsu){
+        if(HI.TYPE < 3) return false;
+    }
+}
+
+bool GREEN_ONE_COLOR_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> green = {S2, S3, S4, S6, S8, HAT};
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.insert(tehai.end(), P.PON.begin(), P.PON.end());
+    tehai.insert(tehai.end(), P.CHI.begin(), P.CHI.end());
+    tehai.insert(tehai.end(), P.ANKAN.begin(), P.ANKAN.end());
+    tehai.insert(tehai.end(), P.MINKAN.begin(), P.MINKAN.end());
+    tehai.insert(tehai.end(), P.SHUNTSU.begin(), P.SHUNTSU.end());
+    tehai.push_back(P.AGARI);
+    for(MAHJANG_HI HI : tehai){
+        if(std::find(green.begin(), green.end(), HI) == green.end()) return false;
+    }
+    return true;
+}
+
+bool PURE_OLD_HEAD_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.insert(tehai.end(), P.PON.begin(), P.PON.end());
+    tehai.insert(tehai.end(), P.CHI.begin(), P.CHI.end());
+    tehai.insert(tehai.end(), P.ANKAN.begin(), P.ANKAN.end());
+    tehai.insert(tehai.end(), P.MINKAN.begin(), P.MINKAN.end());
+    tehai.push_back(P.AGARI);
+    for(MAHJANG_HI HI : tehai){
+        if(HI.TYPE >= 3) return false;
+        if(HI.RANK != 1 && HI.RANK != 9) return false;
+    }
+    return true;
+}
+
+bool SMALL_FOUR_PLEASURE_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> mentsu = P.ANKO;
+    mentsu.insert(mentsu.begin(), P.PON.begin(), P.PON.end());
+    mentsu.insert(mentsu.begin(), P.ANKAN.begin(), P.ANKAN.end());
+    mentsu.insert(mentsu.begin(), P.MINKAN.begin(), P.MINKAN.end());
+    int kaze_count = 0;
+    for(MAHJANG_HI KAZE : {TON, NAM, SHA, PAY}){
+        if(std::find(mentsu.begin(), mentsu.end(), KAZE) == mentsu.end()) return false;
+    }
+    return true;
+}
+
+bool THIRTEEN_ORPHANS_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> toitsu;
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.push_back(P.AGARI);
+    for(MAHJANG_HI HI : tehai){
+        if(std::count(tehai.begin(), tehai.end(), HI) == 2){
+            if(std::find(toitsu.begin(), toitsu.end(), HI) == toitsu.end()){
+                toitsu.push_back(HI);
+            }
+        }
+    }
+    if(toitsu.size() != 1) return false;
+    tehai.erase(std::find(tehai.begin(), tehai.end(), toitsu[0]));
+
+    if(std::count(tehai.begin(), tehai.end(), M1) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), M9) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), P1) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), P9) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), S1) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), S9) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), TON) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), NAM) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), SHA) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), PAY) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), HAK) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), HAT) != 1) return false;
+    if(std::count(tehai.begin(), tehai.end(), CHU) != 1) return false;
+    return true;
+}
+
+bool FOUR_SWORD_F(const PLAYER &P){
+    if(P.ANKAN.size() + P.MINKAN.size() == 4) return true;
+    return false;
+}
+
+bool NINE_GATES_F(const PLAYER &P){
+    if(!P.MENZEN) return false;
+    if(!PURE_ONE_COLOR_F(P)) return false;
+    if(PURE_NINE_GATES_F(P)) return false;
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.push_back(P.AGARI);
+    for(int type = 0; type < 3; type++){
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 1, 0)) >= 3) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 2, 0)) >= 1) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 3, 0)) >= 1) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 4, 0)) >= 1) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 5, 0)) >= 1) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 6, 0)) >= 1) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 7, 0)) >= 1) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 8, 0)) >= 1) return false;
+        if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 9, 0)) >= 3) return false;
+    }
+    return true;
+}
+
+bool TENHO_F(const PLAYER &P){
+    return P.W_REACH_FRAG && P.JIFU == TON;
+}
+
+bool CHIHO_F(const PLAYER &P){
+    return P.W_REACH_FRAG && P.JIFU != TON;
+}
+
+//ダブル役満-----------------------------------------------------
 
