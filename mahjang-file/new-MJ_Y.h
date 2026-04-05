@@ -56,20 +56,20 @@ class YAKU{
         bool PURE_ONE_COLOR_F(const PLAYER &P);//清一色
         
         //役満---------------------------------------------------------------------------
-        bool BIG_THREE_ORIGIN_F();//大三元
-        bool FOUR_DARK_SAME_F();//四暗刻
-        bool CHAR_ONE_COLOR_F();//字一色
-        bool GREEN_ONE_COLOR_F();//緑一色
-        bool PURE_OLD_HEAD_F();//清老頭
-        bool SMALL_FOUR_PLEASURE_F();//小四喜
-        bool THIRTEEN_ORPHANS_F();//国士無双
-        bool FOUR_SWORD_F();//四槓子
-        bool NINE_GATES_F();//九蓮宝燈
-        bool TENHO_F();//天和
-        bool CHIHO_F();//地和
+        bool BIG_THREE_ORIGIN_F(const PLAYER &P);//大三元
+        bool FOUR_DARK_SAME_F(const PLAYER &P);//四暗刻
+        bool CHAR_ONE_COLOR_F(const PLAYER &P);//字一色
+        bool GREEN_ONE_COLOR_F(const PLAYER &P);//緑一色
+        bool PURE_OLD_HEAD_F(const PLAYER &P);//清老頭
+        bool SMALL_FOUR_PLEASURE_F(const PLAYER &P);//小四喜
+        bool THIRTEEN_ORPHANS_F(const PLAYER &P);//国士無双
+        bool FOUR_SWORD_F(const PLAYER &P);//四槓子
+        bool NINE_GATES_F(const PLAYER &P);//九蓮宝燈
+        bool TENHO_F(const PLAYER &P);//天和
+        bool CHIHO_F(const PLAYER &P);//地和
         
         //ダブル役満---------------------------------------------------------------------------
-        bool BIG_FOUR_PLEASURE_F();//大四喜
-        bool FOUR_DARK_SAME_SINGLE_F();//四暗刻単騎
-        bool PURE_NINE_GATES_F();//純正九蓮宝燈
-        bool THIRTEEN_ORPHANS_SUPER_F();//国士無双13面待ち
+        bool BIG_FOUR_PLEASURE_F(const PLAYER &P);//大四喜
+        bool FOUR_DARK_SAME_SINGLE_F(const PLAYER &P);//四暗刻単騎
+        bool PURE_NINE_GATES_F(const PLAYER &P);//純正九蓮宝燈
+        bool THIRTEEN_ORPHANS_SUPER_F(const PLAYER &P);//国士無双13面待ち
