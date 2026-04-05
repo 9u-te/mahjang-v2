@@ -307,7 +307,7 @@ bool MIXED_ONE_COLOR_F(const PLAYER &P){
     tehai.insert(tehai.end(), P.MINKAN.begin(), P.MINKAN.end());
     tehai.push_back(P.AGARI);
     std::sort(tehai.begin(), tehai.end());
-    
+
     int type = tehai[0].TYPE;
     for(MAHJANG_HI HI : tehai){
         if(HI.TYPE < 3 && HI.TYPE != type) return false;
@@ -316,7 +316,7 @@ bool MIXED_ONE_COLOR_F(const PLAYER &P){
 }
 
 bool PURE_MIXED_F(const PLAYER &P){
-    if(P.SHUNTSU.empty() && P.CHI.size()) return false;
+    if(P.SHUNTSU.empty() && P.CHI.empty()) return false;
 
     for(MAHJANG_HI HI : P.SHUNTSU){
         if(HI.RANK != 1 && HI.RANK != 7) return false;
@@ -345,11 +345,29 @@ bool TWO_ORDER_F(const PLAYER &P){
     if(!P.MENZEN) return false;
     if(P.SHUNTSU.size() != 4) return false;
     for(MAHJANG_HI shu : P.SHUNTSU){
-        if(std::count(P.SHUNTSU.begin(), P.SHUNTSU.end(), shu) != 2) return false;
+        int c = std::count(P.SHUNTSU.begin(), P.SHUNTSU.end(), shu);
+        if( c != 2 && c != 4) return false;
     }
     return true;
 }
 
+//6翻役-------------------------------------------------------
 
+bool PURE_ONE_COLOR_F(const PLAYER &P){
+    std::vector<MAHJANG_HI> tehai = P.TEHAI;
+    tehai.insert(tehai.end(), P.PON.begin(), P.PON.end());
+    tehai.insert(tehai.end(), P.CHI.begin(), P.CHI.end());
+    tehai.insert(tehai.end(), P.ANKAN.begin(), P.ANKAN.end());
+    tehai.insert(tehai.end(), P.MINKAN.begin(), P.MINKAN.end());
+    tehai.push_back(P.AGARI);
+    std::sort(tehai.begin(), tehai.end());
 
+    int type = tehai[0].TYPE;
+    for(MAHJANG_HI HI : tehai){
+        if(HI.TYPE < 3 && HI.TYPE != type || HI.TYPE >= 3) return false;
+    }
+    return true;
+}
+
+//役満---------------------------------------------------------
 
