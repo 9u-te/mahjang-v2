@@ -142,20 +142,21 @@ int STANDARD_POINTS(const PLAYER &P){
     if(yakuman_num > 0) return yakuman_num * 8000;
 
     int han = HAN_CAL(P);
-    int Fu = 
+    int Fu = FU_CAL(P);
 
-    if(yaku_num >= 13) return 8000;
+    if(han >= 13) return 8000;
 
-    if(yaku_num < 13 && yaku_num >= 11) return 6000;
+    if(han < 13 && han >= 11) return 6000;
 
-    if(yaku_num < 11 && yaku_num >= 8) return 4000;
+    if(han < 11 && han >= 8) return 4000;
 
-    if(yaku_num < 8 && yaku_num >= 6) return 3000;
+    if(han < 8 && han >= 6) return 3000;
 
-    if(yaku_num == 5) return 2000;
+    if(han == 5) return 2000;
 
-    if()
+    int STP = Fu * (1 << (han + 2));
 
+    if(STP > 2000) return 2000;
 
-    
+    return STP;
 }
