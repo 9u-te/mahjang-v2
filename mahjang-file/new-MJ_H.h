@@ -1,19 +1,27 @@
 #pragma once
 #include<vector>
 
+namespace TileType{
+    const int Manzu = 0;
+    const int Pinzu = 1;
+    const int Souzu = 2;
+    const int Kaze = 3;
+    const int Sangen = 4;
+}
+
 class MAHJANG_HI{
     public:
         int TYPE;
         int RANK;
-        int DORA;
+        bool isRed;
 
 
         MAHJANG_HI() = default;
 
-        MAHJANG_HI(int t, int r, int d){
+        MAHJANG_HI(int t, int r, bool d){
             TYPE = t;
             RANK = r;
-            DORA = d;
+            isRed = d;
         };
 
         //演算子オーバーロード----------------------
@@ -35,58 +43,58 @@ class MAHJANG_HI{
 //麻雀牌------------------------------------------------
 
 //萬子
-inline MAHJANG_HI M1(0, 1, 0);
-inline MAHJANG_HI M2(0, 2, 0);
-inline MAHJANG_HI M3(0, 3, 0);
-inline MAHJANG_HI M4(0, 4, 0);
-inline MAHJANG_HI M5(0, 5, 0);
-inline MAHJANG_HI M6(0, 6, 0);
-inline MAHJANG_HI M7(0, 7, 0);
-inline MAHJANG_HI M8(0, 8, 0);
-inline MAHJANG_HI M9(0, 9, 0);
-inline MAHJANG_HI M5_RED(0, 5, 1);
+inline const MAHJANG_HI M1(TileType::Manzu, 1, false);
+inline const MAHJANG_HI M2(TileType::Manzu, 2, false);
+inline const MAHJANG_HI M3(TileType::Manzu, 3, false);
+inline const MAHJANG_HI M4(TileType::Manzu, 4, false);
+inline const MAHJANG_HI M5(TileType::Manzu, 5, false);
+inline const MAHJANG_HI M6(TileType::Manzu, 6, false);
+inline const MAHJANG_HI M7(TileType::Manzu, 7, false);
+inline const MAHJANG_HI M8(TileType::Manzu, 8, false);
+inline const MAHJANG_HI M9(TileType::Manzu, 9, false);
+inline const MAHJANG_HI M5_RED(TileType::Manzu, 5, true);
 
 //筒子
-inline MAHJANG_HI P1(1, 1, 0);
-inline MAHJANG_HI P2(1, 2, 0);
-inline MAHJANG_HI P3(1, 3, 0);
-inline MAHJANG_HI P4(1, 4, 0);
-inline MAHJANG_HI P5(1, 5, 0);
-inline MAHJANG_HI P6(1, 6, 0);
-inline MAHJANG_HI P7(1, 7, 0);
-inline MAHJANG_HI P8(1, 8, 0);
-inline MAHJANG_HI P9(1, 9, 0);
-inline MAHJANG_HI P5_RED(1, 5, 1);
+inline const MAHJANG_HI P1(TileType::Pinzu, 1, false);
+inline const MAHJANG_HI P2(TileType::Pinzu, 2, false);
+inline const MAHJANG_HI P3(TileType::Pinzu, 3, false);
+inline const MAHJANG_HI P4(TileType::Pinzu, 4, false);
+inline const MAHJANG_HI P5(TileType::Pinzu, 5, false);
+inline const MAHJANG_HI P6(TileType::Pinzu, 6, false);
+inline const MAHJANG_HI P7(TileType::Pinzu, 7, false);
+inline const MAHJANG_HI P8(TileType::Pinzu, 8, false);
+inline const MAHJANG_HI P9(TileType::Pinzu, 9, false);
+inline const MAHJANG_HI P5_RED(TileType::Pinzu, 5, true);
 
 //索子
-inline MAHJANG_HI S1(2, 1, 0);
-inline MAHJANG_HI S2(2, 2, 0);
-inline MAHJANG_HI S3(2, 3, 0);
-inline MAHJANG_HI S4(2, 4, 0);
-inline MAHJANG_HI S5(2, 5, 0);
-inline MAHJANG_HI S6(2, 6, 0);
-inline MAHJANG_HI S7(2, 7, 0);
-inline MAHJANG_HI S8(2, 8, 0);
-inline MAHJANG_HI S9(2, 9, 0);
-inline MAHJANG_HI S5_RED(2, 5, 1);
+inline const MAHJANG_HI S1(TileType::Souzu, 1, false);
+inline const MAHJANG_HI S2(TileType::Souzu, 2, false);
+inline const MAHJANG_HI S3(TileType::Souzu, 3, false);
+inline const MAHJANG_HI S4(TileType::Souzu, 4, false);
+inline const MAHJANG_HI S5(TileType::Souzu, 5, false);
+inline const MAHJANG_HI S6(TileType::Souzu, 6, false);
+inline const MAHJANG_HI S7(TileType::Souzu, 7, false);
+inline const MAHJANG_HI S8(TileType::Souzu, 8, false);
+inline const MAHJANG_HI S9(TileType::Souzu, 9, false);
+inline const MAHJANG_HI S5_RED(TileType::Souzu, 5, true);
 
 //風牌
-inline MAHJANG_HI TON(3, 1, 0);
-inline MAHJANG_HI NAM(3, 2, 0);
-inline MAHJANG_HI SHA(3, 3, 0);
-inline MAHJANG_HI PAY(3, 4, 0);
+inline const MAHJANG_HI TON(TileType::Kaze, 1, false);
+inline const MAHJANG_HI NAM(TileType::Kaze, 2, false);
+inline const MAHJANG_HI SHA(TileType::Kaze, 3, false);
+inline const MAHJANG_HI PAY(TileType::Kaze, 4, false);
 
 //三元牌
-inline MAHJANG_HI HAK(4, 1, 0);
-inline MAHJANG_HI HAT(4, 2, 0);
-inline MAHJANG_HI CHU(4, 3, 0);
+inline const MAHJANG_HI HAK(TileType::Sangen, 1, false);
+inline const MAHJANG_HI HAT(TileType::Sangen, 2, false);
+inline const MAHJANG_HI CHU(TileType::Sangen, 3, false);
 
 
 
 //すべての牌
-inline std::vector<MAHJANG_HI> ALL_HI={ M1, M2, M3, M4, M5, M6, M7, M8, M9, 
-                                        P1, P2, P3, P4, P5, P6, P7, P8, P9,
-                                        S1, S2, S3, S4, S5, S6, S7, S8, S9, 
-                                        TON, NAM, SHA, PAY,
-                                        HAK, HAT, CHU};
+inline const std::vector<MAHJANG_HI> ALL_HI = { M1, M2, M3, M4, M5, M6, M7, M8, M9, 
+                                                P1, P2, P3, P4, P5, P6, P7, P8, P9,
+                                                S1, S2, S3, S4, S5, S6, S7, S8, S9, 
+                                                TON, NAM, SHA, PAY,
+                                                HAK, HAT, CHU};
 

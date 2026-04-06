@@ -5,9 +5,12 @@
 class PLAYER{
     public:
         int ID;
-        int POINTS;//得点
+        int SCORE;//得点
 
         MAHJANG_HI JIFU;//自風
+
+        MAHJANG_HI BAFU;//場風
+        int yama_left_num;
 
         std::vector<MAHJANG_HI> TEHAI;
         std::vector<MAHJANG_HI> PON;
@@ -33,7 +36,7 @@ class PLAYER{
 
         PLAYER(int id){
             ID = id;
-            POINTS = 25000;
+            SCORE = 25000;
         }
 
         void repai();

@@ -1,6 +1,7 @@
 #include "new-MJ_Y.h"
 
-namespace Yaku{
+
+namespace Yaku_F{
     //1翻役-------------------------------------------
     
     bool REACH_F(const PLAYER &P){
@@ -20,10 +21,10 @@ namespace Yaku{
     }
     
     bool GRAND_WIND_F(const PLAYER &P){
-        if(std::find(P.ANKO.begin(), P.ANKO.end(), BAFU) != P.ANKO.end()) return true;
-        if(std::find(P.PON.begin(), P.PON.end(), BAFU) != P.PON.end()) return true;
-        if(std::find(P.ANKAN.begin(), P.ANKAN.end(), BAFU) != P.ANKAN.end()) return true;
-        if(std::find(P.MINKAN.begin(), P.MINKAN.end(), BAFU) != P.MINKAN.end()) return true;
+        if(std::find(P.ANKO.begin(), P.ANKO.end(), P.BAFU) != P.ANKO.end()) return true;
+        if(std::find(P.PON.begin(), P.PON.end(), P.BAFU) != P.PON.end()) return true;
+        if(std::find(P.ANKAN.begin(), P.ANKAN.end(), P.BAFU) != P.ANKAN.end()) return true;
+        if(std::find(P.MINKAN.begin(), P.MINKAN.end(), P.BAFU) != P.MINKAN.end()) return true;
         return false;
     }
     
@@ -70,7 +71,7 @@ namespace Yaku{
     
     bool PEACE_F(const PLAYER &P){
         if(P.SHUNTSU.size() != 4) return false;
-        if(P.HEAD_PAIR == P.JIFU || P.HEAD_PAIR == BAFU) return false;
+        if(P.HEAD_PAIR == P.JIFU || P.HEAD_PAIR == P.BAFU) return false;
         if(P.HEAD_PAIR.TYPE == 4) return false;
     
         for(MAHJANG_HI shu : P.SHUNTSU){
@@ -94,11 +95,11 @@ namespace Yaku{
     }
     
     bool UNDERSEA_F(const PLAYER &P){
-        return P.AGARI == P.TSUMO && YAMA.empty();
+        return P.AGARI == P.TSUMO && P.yama_left_num == 0;
     }
     
     bool UNDERRIVER_F(const PLAYER &P){
-        return P.AGARI != P.TSUMO && YAMA.empty();
+        return P.AGARI != P.TSUMO && P.yama_left_num == 0;
     }
     
     bool ONE_SHOT_F(const PLAYER &P){
@@ -127,7 +128,7 @@ namespace Yaku{
     }
     
     bool SMALL_THREE_ORIGIN_F(const PLAYER &P){
-        if(WHITE_F(P) + GREEN_F(P)+ RED_F(P) != 2) return false;
+        if(Yaku_F::WHITE_F(P) + Yaku_F::GREEN_F(P)+ Yaku_F::RED_F(P) != 2) return false;
         if(P.HEAD_PAIR != HAK && P.HEAD_PAIR != HAT && P.HEAD_PAIR != CHU){
             return false;
         }
@@ -243,7 +244,7 @@ namespace Yaku{
     //3翻役------------------------------------------------------------------------------------
     
     bool MIXED_ONE_COLOR_F(const PLAYER &P){
-        if(PURE_ONE_COLOR_F(P)) return false;
+        if(Yaku_F::PURE_ONE_COLOR_F(P)) return false;
         std::vector<MAHJANG_HI> tehai = P.TEHAI;
         tehai.insert(tehai.end(), P.PON.begin(), P.PON.end());
         tehai.insert(tehai.end(), P.CHI.begin(), P.CHI.end());
@@ -316,7 +317,7 @@ namespace Yaku{
     //役満---------------------------------------------------------
     
     bool BIG_THREE_ORIGIN_F(const PLAYER &P){
-        if(WHITE_F(P) + GREEN_F(P)+ RED_F(P) == 3) return true;
+        if(Yaku_F::WHITE_F(P) + Yaku_F::GREEN_F(P)+ Yaku_F::RED_F(P) == 3) return true;
         return false;
     }
     
@@ -420,8 +421,8 @@ namespace Yaku{
     
     bool NINE_GATES_F(const PLAYER &P){
         if(!P.MENZEN) return false;
-        if(!PURE_ONE_COLOR_F(P)) return false;
-        if(PURE_NINE_GATES_F(P)) return false;
+        if(!Yaku_F::PURE_ONE_COLOR_F(P)) return false;
+        if(Yaku_F::PURE_NINE_GATES_F(P)) return false;
         std::vector<MAHJANG_HI> tehai = P.TEHAI;
         tehai.push_back(P.AGARI);
         int type = tehai[0].TYPE;
@@ -472,7 +473,7 @@ namespace Yaku{
     
     bool PURE_NINE_GATES_F(const PLAYER &P){
         if(!P.MENZEN) return false;
-        if(!PURE_ONE_COLOR_F(P)) return false;
+        if(!Yaku_F::PURE_ONE_COLOR_F(P)) return false;
         std::vector<MAHJANG_HI> tehai = P.TEHAI;
         int type = tehai[0].TYPE;
         if(std::count(tehai.begin(), tehai.end(), MAHJANG_HI(type, 1, 0)) != 3) return false;
