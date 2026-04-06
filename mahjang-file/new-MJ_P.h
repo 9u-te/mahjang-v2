@@ -4,7 +4,7 @@
 
 class PLAYER{
     public:
-        int ID;
+        const int ID;
         int SCORE;//得点
 
         MAHJANG_HI JIFU;//自風
@@ -17,7 +17,7 @@ class PLAYER{
         std::vector<MAHJANG_HI> CHI;
         std::vector<MAHJANG_HI> MINKAN;
         std::vector<MAHJANG_HI> ANKAN;
-        std::vector<MAHJANG_HI> KAWA;
+//std::vector<MAHJANG_HI> KAWA;
 
         std::vector<MAHJANG_HI> ANKO;
         std::vector<MAHJANG_HI> SHUNTSU;
@@ -34,8 +34,8 @@ class PLAYER{
         bool ONE_SHOT_FRAG;
         bool W_REACH_FRAG;
 
-        PLAYER(int id){
-            ID = id;
+        PLAYER(int id) : ID(id), TEHAI(), PON(), CHI(), MINKAN(), ANKAN()
+        {
             SCORE = 25000;
         }
 
