@@ -90,7 +90,3 @@ inline std::vector<MAHJANG_HI> ALL_HI={ M1, M2, M3, M4, M5, M6, M7, M8, M9,
                                         TON, NAM, SHA, PAY,
                                         HAK, HAT, CHU};
 
-//場風
-inline MAHJANG_HI BAFU = TON;
-
-inline std::vector<MAHJANG_HI> YAMA;
