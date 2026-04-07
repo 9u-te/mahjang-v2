@@ -25,6 +25,14 @@ int Game::dicision_oya()
 void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
 { // カンカウントのリセット
     KanCount = 0;
+    YAMA.clear();
+    WANGPAI.clear();
+    DraHyouji.clear();
+    uraDraHyouji.clear();
+    KAWA0.clear();
+    KAWA1.clear();
+    KAWA2.clear();
+    KAWA3.clear();
 
     
 

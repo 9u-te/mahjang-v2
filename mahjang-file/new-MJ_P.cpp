@@ -1,22 +1,26 @@
 #include "new-MJ_P.h"
 
-
-void PLAYER::repai(){
+void PLAYER::repai()
+{
     std::sort(TEHAI.begin(), TEHAI.end());
 }
 
-void PLAYER::reset_mentsu(){
+void PLAYER::reset_mentsu()
+{
     ANKO.clear();
     SHUNTSU.clear();
 }
 
-std::vector<MAHJANG_HI> PLAYER::bunseki0(){
+std::vector<MAHJANG_HI> PLAYER::atamaKouho(std::vector<MAHJANG_HI> tehai, MAHJANG_HI another_hi)
+{
     std::vector<MAHJANG_HI> toitsu;
-    std::vector<MAHJANG_HI> tehai = TEHAI;
-    tehai.push_back(AGARI);
-    for(MAHJANG_HI HI : tehai){
-        if(std::count(tehai.begin(), tehai.end(), HI) == 2){
-            if(std::find(toitsu.begin(), toitsu.end(), HI) == toitsu.end()){
+    tehai.push_back(another_hi);
+    for (MAHJANG_HI HI : tehai)
+    {
+        if (std::count(tehai.begin(), tehai.end(), HI) >= 2)
+        {
+            if (std::find(toitsu.begin(), toitsu.end(), HI) == toitsu.end())
+            {
                 toitsu.push_back(HI);
             }
         }
@@ -24,42 +28,94 @@ std::vector<MAHJANG_HI> PLAYER::bunseki0(){
     return toitsu;
 }
 
-bool PLAYER::bunseki1(std::vector<MAHJANG_HI> tehai){
-    if(tehai.empty()) return true;
+bool PLAYER::sepAnkoShunts(std::vector<MAHJANG_HI> tehai)
+{
+    if (tehai.empty())
+        return true;
     MAHJANG_HI first = tehai[0];
-    //暗刻
-    if(std::count(tehai.begin(), tehai.end(), first) >= 3){//三つ以上あるとき
-        ANKO.push_back(first);//暗刻に入れる
-        tehai.erase(std::find(tehai.begin(), tehai.end(), first));//三つ消す
-        tehai.erase(std::find(tehai.begin(), tehai.end(), first));
-        tehai.erase(std::find(tehai.begin(), tehai.end(), first));
+    // 暗刻
+    if (std::count(tehai.begin(), tehai.end(), first) >= 3)// 三つ以上あるとき
+    { 
+        ANKO.push_back(first);// 暗刻に入れる
+        std::vector<MAHJANG_HI> next_tehai = tehai;                
+        next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first)); // 三つ消す
+        next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first));
+        next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first));
 
-        if(bunseki1(tehai)) return true;
+        if (sepAnkoShunts(next_tehai)) return true;
+
+        ANKO.pop_back();
+            
     }
-    //順子
-    if(std::find(tehai.begin(), tehai.end(), first + 1) != tehai.end() && std::find(tehai.begin(), tehai.end(), first + 2) != tehai.end()){
-        SHUNTSU.push_back(first);//暗刻に入れる
-        tehai.erase(std::find(tehai.begin(), tehai.end(), first));//三つ消す
-        tehai.erase(std::find(tehai.begin(), tehai.end(), first + 1));
-        tehai.erase(std::find(tehai.begin(), tehai.end(), first + 2));
+    // 順子
+    if (std::find(tehai.begin(), tehai.end(), first + 1) != tehai.end() && std::find(tehai.begin(), tehai.end(), first + 2) != tehai.end())
+    {
+        SHUNTSU.push_back(first);         
+        std::vector<MAHJANG_HI> next_tehai = tehai;                
+        next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first)); // 三つ消す
+        next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first + 1));
+        next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first + 2));
 
-        if(bunseki1(tehai)) return true;
+        if (sepAnkoShunts(next_tehai)) return true;
+
+        SHUNTSU.pop_back();
     }
     return false;
 }
 
-bool PLAYER::bunseki2(){
-    std::vector<MAHJANG_HI> atama_list = bunseki0();
-    std::vector<MAHJANG_HI> tehai = TEHAI;
-    tehai.push_back(AGARI);
-    for(MAHJANG_HI atama : atama_list){
+bool PLAYER::bunseki1(std::vector<MAHJANG_HI> tehai, MAHJANG_HI another_hi)
+{
+    std::vector<MAHJANG_HI> atama_list = atamaKouho(tehai, another_hi);
+    tehai.push_back(another_hi);
+    std::sort(tehai.begin(), tehai.end());
+    for (MAHJANG_HI atama : atama_list)
+    {
         std::vector<MAHJANG_HI> test = tehai;
         reset_mentsu();
-        //頭二枚を抜く
+        // 頭二枚を抜く
         test.erase(std::find(test.begin(), test.end(), atama));
         test.erase(std::find(test.begin(), test.end(), atama));
 
-        if(bunseki1(test)) return true;
+        if (sepAnkoShunts(test))
+            return true;
     }
     return false;
+}
+
+std::vector<MAHJANG_HI> PLAYER::TemPai0(const std::vector<MAHJANG_HI> &tehai)
+{
+    std::vector<MAHJANG_HI> nanimachi{};
+    for (MAHJANG_HI HI : ALL_HI)
+    {
+        if (bunseki1(tehai, HI))
+        {
+            if (std::find(nanimachi.begin(), nanimachi.end(), HI) == nanimachi.end())
+                nanimachi.push_back(HI);
+        }
+    }
+    return nanimachi;
+}
+
+std::vector<std::vector<MAHJANG_HI>> PLAYER::TemPai1(MAHJANG_HI another_hi)
+{
+    int tehai_size = TEHAI.size();
+    std::vector<std::vector<MAHJANG_HI>> result(tehai_size);
+
+    for (int i = 0; i < tehai_size; i++)
+    {
+        std::vector<MAHJANG_HI> tehai = TEHAI;
+        tehai[i] = another_hi;
+        result[i] = TemPai0(tehai);
+    }
+    return result;
+}
+
+void PLAYER::reachF()
+{
+    if (W_REACH_FRAG)
+        W_REACH_STICK = true;
+    else
+        REACH_STICK = true;
+
+    SCORE -= 1000;
 }

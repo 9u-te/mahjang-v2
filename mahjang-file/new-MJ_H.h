@@ -42,6 +42,7 @@ class MAHJANG_HI{
 
 //麻雀牌------------------------------------------------
 
+inline const MAHJANG_HI HiUra(-1, -1, false);
 //萬子
 inline const MAHJANG_HI M1(TileType::Manzu, 1, false);
 inline const MAHJANG_HI M2(TileType::Manzu, 2, false);
