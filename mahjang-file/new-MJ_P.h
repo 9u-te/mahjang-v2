@@ -61,13 +61,13 @@ public:
     // 立直する
     void reachF();
     // ポンする
-    void ponF();
+    void ponF(MAHJANG_HI HI);
     // チーする
-    void chiF();
-    // 暗槓する
-    void ankanF();
+    void chiF(MAHJANG_HI HI);
     // 明槓する
-    void minkanF();
+    void minkanF(MAHJANG_HI HI);
     // 加槓する
     void kakanF();
+     // 暗槓する
+    void ankanF();
 };

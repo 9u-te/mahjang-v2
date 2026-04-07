@@ -119,3 +119,10 @@ void PLAYER::reachF()
 
     SCORE -= 1000;
 }
+
+void PLAYER::ponF(MAHJANG_HI HI){
+    if(std::count(TEHAI.begin(), TEHAI.end(), HI) > 2)
+    {
+        
+    }
+}
