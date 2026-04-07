@@ -1,4 +1,5 @@
 #include "new-MJ_P.h"
+#include "cscontroll.h"
 
 void PLAYER::repai()
 {
@@ -34,31 +35,33 @@ bool PLAYER::sepAnkoShunts(std::vector<MAHJANG_HI> tehai)
         return true;
     MAHJANG_HI first = tehai[0];
     // 暗刻
-    if (std::count(tehai.begin(), tehai.end(), first) >= 3)// 三つ以上あるとき
-    { 
-        ANKO.push_back(first);// 暗刻に入れる
-        std::vector<MAHJANG_HI> next_tehai = tehai;                
+    if (std::count(tehai.begin(), tehai.end(), first) >= 3) // 三つ以上あるとき
+    {
+        std::vector<MAHJANG_HI> next_tehai = tehai;
         next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first)); // 三つ消す
         next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first));
         next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first));
 
-        if (sepAnkoShunts(next_tehai)) return true;
-
-        ANKO.pop_back();
-            
+        if (sepAnkoShunts(next_tehai))
+        {
+            ANKO.push_back(first); // 暗刻に入れる
+            return true;
+        }
     }
     // 順子
     if (std::find(tehai.begin(), tehai.end(), first + 1) != tehai.end() && std::find(tehai.begin(), tehai.end(), first + 2) != tehai.end())
     {
-        SHUNTSU.push_back(first);         
-        std::vector<MAHJANG_HI> next_tehai = tehai;                
+
+        std::vector<MAHJANG_HI> next_tehai = tehai;
         next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first)); // 三つ消す
         next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first + 1));
         next_tehai.erase(std::find(next_tehai.begin(), next_tehai.end(), first + 2));
 
-        if (sepAnkoShunts(next_tehai)) return true;
-
-        SHUNTSU.pop_back();
+        if (sepAnkoShunts(next_tehai))
+        {
+            SHUNTSU.push_back(first);
+            return true;
+        }
     }
     return false;
 }
@@ -120,9 +123,47 @@ void PLAYER::reachF()
     SCORE -= 1000;
 }
 
-void PLAYER::ponF(MAHJANG_HI HI){
-    if(std::count(TEHAI.begin(), TEHAI.end(), HI) > 2)
+bool PLAYER::ponF(MAHJANG_HI HI)
+{
+    if (std::count(TEHAI.begin(), TEHAI.end(), HI) > 2)
     {
-        
+        std::cout << "pon(y/n)" << std::endl;
+        char ans;
+        std::cin >> ans;
+        if (ans = 'y')
+        {
+            PON.push_back(HI);
+            return true;
+        }
     }
+    return false;
+}
+
+bool PLAYER::chiF(MAHJANG_HI HI)
+{
+    bool hi_m2 = std::find(TEHAI.begin(), TEHAI.end(), HI - 2) != TEHAI.end();
+    bool hi_m1 = std::find(TEHAI.begin(), TEHAI.end(), HI - 1) != TEHAI.end();
+    bool hi_p1 = std::find(TEHAI.begin(), TEHAI.end(), HI + 1) != TEHAI.end();
+    bool hi_p2 = std::find(TEHAI.begin(), TEHAI.end(), HI + 2) != TEHAI.end();
+    
+    if(hi_m2 && hi_m1 + hi_m1 && hi_p1 + hi_p1 && hi_p2 == 0) return false;;
+    std::cout << "pon(y/n)" << std::endl;
+        char ans;
+        std::cin >> ans;
+        if (ans = 'y')
+        {
+            PON.push_back(HI);
+        }
+    if(hi_m2 && hi_m1) std::cout << CsControll::display({HI - 2, HI - 1, HI}) << " ";
+    if(hi_m1 && hi_p1) std::cout << CsControll::display({HI - 1, HI, HI + 1}) << " ";
+    if(hi_p1 && hi_p2) std::cout << CsControll::display({HI, HI + 1, HI + 2}) << "\n";
+    
+    if(hi_m2 && hi_m1 + hi_m1 && hi_p1 + hi_p1 && hi_p2 == 1)
+    {
+        if(hi_m2 && hi_m1) CHI.push_back(HI - 2); return true;
+        if(hi_m1 && hi_p1) CHI.push_back(HI - 1); return true;
+        if(hi_p1 && hi_p2) CHI.push_back(HI); return true;
+    }
+
+    
 }

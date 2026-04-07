@@ -34,11 +34,16 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
     KAWA2.clear();
     KAWA3.clear();
 
-    
-
     // ダブル立直と天和地和フラグのリセット
-    for (PLAYER player : players)
+    for (PLAYER &player : players)
     {
+        player.TEHAI.clear();
+        player.PON.clear();
+        player.CHI.clear();
+        player.MINKAN.clear();
+        player.ANKAN.clear();
+        player.reset_mentsu();
+
         player.W_REACH_FRAG = true;
     }
 
@@ -50,6 +55,9 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
             for (int rank = 1; rank <= 9; rank++)
             {
                 YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
             }
         }
         else if (type == 3) // 風牌
@@ -57,12 +65,18 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
             for (int rank = 1; rank <= 4; rank++)
             {
                 YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
             }
         }
         else // 三元牌
         {
             for (int rank = 1; rank <= 3; rank++)
             {
+                YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
+                YAMA.emplace_back(type, rank, false);
                 YAMA.emplace_back(type, rank, false);
             }
         }
@@ -77,7 +91,8 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
     std::shuffle(YAMA.begin(), YAMA.end(), rd);
 
     // 王牌の作成
-    WANGPAI.insert(WANGPAI.end(), YAMA.end() - 14, YAMA.end());
+    WANGPAI.insert(WANGPAI.begin(), YAMA.end() - 14, YAMA.end());
+    YAMA.erase(YAMA.end() - 14, YAMA.end());
 
     // どら表示牌
     DraHyouji = {WANGPAI[9]};
@@ -90,9 +105,9 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
             std::vector<MAHJANG_HI> &whose_tehai = players[(oya_id + player_id) % 4].TEHAI;
 
             // 4枚とる
-            whose_tehai.insert(whose_tehai.end(), YAMA.begin(), YAMA.begin() + 4);
+            whose_tehai.insert(whose_tehai.end(), YAMA.end() - 4, YAMA.end());
             // 山から4枚消す
-            YAMA.erase(YAMA.begin(), YAMA.begin() + 4);
+            YAMA.erase(YAMA.end() - 4, YAMA.end());
         }
     }
     // ちょんちょん
@@ -101,8 +116,22 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
         std::vector<MAHJANG_HI> &whose_tehai = players[(oya_id + player_id) % 4].TEHAI;
 
         // 1枚とる
-        whose_tehai.insert(whose_tehai.end(), YAMA.begin(), YAMA.begin() + 1);
+        whose_tehai.push_back(YAMA.back());
         // 山から1枚消す
-        YAMA.erase(YAMA.begin(), YAMA.begin() + 1);
+        YAMA.pop_back();
     }
+
+    for (PLAYER &player : players) {
+        player.repai();
+    }
+
 }
+
+void Game::TsumoAction(PLAYER &player)
+{
+    player.TSUMO = YAMA.back();
+    YAMA.pop_back();
+}
+
+
+

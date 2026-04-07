@@ -1,5 +1,7 @@
 #pragma once
 #include<vector>
+#include <iostream>
+
 
 namespace TileType{
     const int Manzu = 0;

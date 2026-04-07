@@ -61,9 +61,9 @@ public:
     // 立直する
     void reachF();
     // ポンする
-    void ponF(MAHJANG_HI HI);
+    bool ponF(MAHJANG_HI HI);
     // チーする
-    void chiF(MAHJANG_HI HI);
+    bool chiF(MAHJANG_HI HI);
     // 明槓する
     void minkanF(MAHJANG_HI HI);
     // 加槓する

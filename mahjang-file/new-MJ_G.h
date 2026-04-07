@@ -29,4 +29,6 @@ public:
     int dicision_oya();
 
     void initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba);
+
+    void TsumoAction(PLAYER &player);
 };
