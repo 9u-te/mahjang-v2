@@ -145,25 +145,59 @@ bool PLAYER::chiF(MAHJANG_HI HI)
     bool hi_m1 = std::find(TEHAI.begin(), TEHAI.end(), HI - 1) != TEHAI.end();
     bool hi_p1 = std::find(TEHAI.begin(), TEHAI.end(), HI + 1) != TEHAI.end();
     bool hi_p2 = std::find(TEHAI.begin(), TEHAI.end(), HI + 2) != TEHAI.end();
-    
-    if(hi_m2 && hi_m1 + hi_m1 && hi_p1 + hi_p1 && hi_p2 == 0) return false;;
-    std::cout << "pon(y/n)" << std::endl;
-        char ans;
-        std::cin >> ans;
-        if (ans = 'y')
-        {
-            PON.push_back(HI);
-        }
-    if(hi_m2 && hi_m1) std::cout << CsControll::display({HI - 2, HI - 1, HI}) << " ";
-    if(hi_m1 && hi_p1) std::cout << CsControll::display({HI - 1, HI, HI + 1}) << " ";
-    if(hi_p1 && hi_p2) std::cout << CsControll::display({HI, HI + 1, HI + 2}) << "\n";
-    
-    if(hi_m2 && hi_m1 + hi_m1 && hi_p1 + hi_p1 && hi_p2 == 1)
+
+    if (hi_m2 && hi_m1 + hi_m1 && hi_p1 + hi_p1 && hi_p2 == 0)
     {
-        if(hi_m2 && hi_m1) CHI.push_back(HI - 2); return true;
-        if(hi_m1 && hi_p1) CHI.push_back(HI - 1); return true;
-        if(hi_p1 && hi_p2) CHI.push_back(HI); return true;
+        return false;
+    };
+    std::cout << "pon(y/n)" << std::endl;
+    char ans;
+    std::cin >> ans;
+    if (ans != 'y')
+    {
+        return false;
     }
 
-    
+    if (hi_m2 && hi_m1)
+        std::cout << CsControll::display({HI - 2, HI - 1, HI}) << " ";
+    if (hi_m1 && hi_p1)
+        std::cout << CsControll::display({HI - 1, HI, HI + 1}) << " ";
+    if (hi_p1 && hi_p2)
+        std::cout << CsControll::display({HI, HI + 1, HI + 2}) << "\n";
+
+    if (hi_m2 && hi_m1 + hi_m1 && hi_p1 + hi_p1 && hi_p2 == 1)
+    {
+        if (hi_m2 && hi_m1)
+        {
+            CHI.push_back(HI - 2);
+            return true;
+        }
+        if (hi_m1 && hi_p1)
+        {
+            CHI.push_back(HI - 1);
+            return true;
+        }
+        if (hi_p1 && hi_p2)
+        {
+            CHI.push_back(HI);
+            return true;
+        }
+    }
+
+    // tsudukiwokaku
+}
+
+bool PLAYER::minkanF(MAHJANG_HI HI)
+{
+    if (std::count(TEHAI.begin(), TEHAI.end(), HI) < 3)
+    {
+        return false;
+    }
+    std::cout << "pon(y/n)" << std::endl;
+    char ans;
+    std::cin >> ans;
+    if (ans = 'y')
+    {
+        MINKAN.push_back(HI);
+    }
 }

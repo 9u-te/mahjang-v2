@@ -65,9 +65,11 @@ public:
     // チーする
     bool chiF(MAHJANG_HI HI);
     // 明槓する
-    void minkanF(MAHJANG_HI HI);
+    bool minkanF(MAHJANG_HI HI);
     // 加槓する
     void kakanF();
      // 暗槓する
     void ankanF();
+    //打牌
+    void discard();
 };
