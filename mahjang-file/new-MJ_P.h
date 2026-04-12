@@ -28,6 +28,8 @@ public:
     MAHJANG_HI KIRU;
     MAHJANG_HI AGARI;
 
+    std::vector<YAKU> yaku_list;
+
     bool REACH_STICK; // 立直棒
     bool W_REACH_STICK;
     bool MENZEN;
@@ -72,4 +74,8 @@ public:
     bool ankanF();
     //打牌
     MAHJANG_HI discard(int n);
+    // ronagari
+    bool ronF();
+    // tsumoagari
+    bool tsumoF();
 };

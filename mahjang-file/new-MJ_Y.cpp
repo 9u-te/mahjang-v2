@@ -512,3 +512,4 @@ namespace Yaku_F{
         return true;
     }
 }
+

@@ -279,9 +279,10 @@ bool PLAYER::ankanF(){
 
 MAHJANG_HI PLAYER::discard(int n){
     if(REACH_STICK){
-        n = 13;
+        return TSUMO;
     }
-    if(n > 12){
+
+    if(n >= TEHAI.size()){
         return TSUMO;
     }
     else{
@@ -290,4 +291,14 @@ MAHJANG_HI PLAYER::discard(int n){
 
         return HI;
     }
+}
+
+bool ronF()
+{
+
+}
+
+bool tsumoF()
+{
+    
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "new-MJ_C.h"
+
 #include <random>
 #include <iostream>
 
@@ -13,17 +14,18 @@ public:
     std::vector<MAHJANG_HI> YAMA;    // 山
     std::vector<MAHJANG_HI> WANGPAI; // 王牌
 
-    int kyotaku;
+    int kyotaku;//供託にあるリーチ棒
+    int honba;
     MAHJANG_HI BAFU; // 場風
     int KanCount;
 
     std::vector<MAHJANG_HI> DraHyouji;
     std::vector<MAHJANG_HI> uraDraHyouji;
 
-    std::vector<MAHJANG_HI> KAWA0, KAWA1, KAWA2, KAWA3;
+    std::vector<std::vector<MAHJANG_HI>> KAWAs;
 
     std::vector<PLAYER> players;
-    int player_num;
+    int current_player_num;
     int oya_id;
 
     Game();
@@ -35,24 +37,27 @@ public:
     //tsumo raseru
     void TsumoAction(PLAYER &player);
 
-    void suteru(MAHJANG_HI HI);
+    void discard(MAHJANG_HI HI, int suteru_player_num);
 
     void reachF();
 
-    void ponF(MAHJANG_HI HI, int pon_player_num);
+    int ponF(MAHJANG_HI HI, int pon_player_num);
 
-    int chiF(MAHJANG_HI HI);
+    void chiF(MAHJANG_HI HI, int chi_player_num);
 
-    int minkanF(MAHJANG_HI HI);
+    int minkanF(MAHJANG_HI HI, int kan_player_num);
 
     void doramekuri();
 
-
     void ryukyoku();
 
-    void ron_tensu();
+    void ron_tensu(int winner);
 
     void tsumo_tensu();
 
-    
+
+    void yaku_hantei(PLAYER &P);
+
+    void play_kyoku();
+
 };
