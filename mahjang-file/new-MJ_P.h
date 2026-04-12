@@ -67,9 +67,9 @@ public:
     // 明槓する
     bool minkanF(MAHJANG_HI HI);
     // 加槓する
-    void kakanF();
+    bool kakanF();
      // 暗槓する
-    void ankanF();
+    bool ankanF();
     //打牌
-    void discard();
+    MAHJANG_HI discard(int n);
 };

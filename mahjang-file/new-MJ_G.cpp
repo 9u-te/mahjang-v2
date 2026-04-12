@@ -133,5 +133,14 @@ void Game::TsumoAction(PLAYER &player)
     YAMA.pop_back();
 }
 
+void Game::suteru(MAHJANG_HI HI){
+    players[player_num];
+}
 
+void Game::reachF(){
+    kyotaku += 1000;
+}
 
+void Game::ponF(MAHJANG_HI HI, int pon_player_num){
+    
+}

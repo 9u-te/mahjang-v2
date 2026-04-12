@@ -130,9 +130,11 @@ bool PLAYER::ponF(MAHJANG_HI HI)
         std::cout << "pon(y/n)" << std::endl;
         char ans;
         std::cin >> ans;
-        if (ans = 'y')
+        if (ans == 'y')
         {
             PON.push_back(HI);
+            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
             return true;
         }
     }
@@ -150,7 +152,7 @@ bool PLAYER::chiF(MAHJANG_HI HI)
     {
         return false;
     };
-    std::cout << "pon(y/n)" << std::endl;
+    std::cout << "chi(y/n)" << std::endl;
     char ans;
     std::cin >> ans;
     if (ans != 'y')
@@ -159,13 +161,21 @@ bool PLAYER::chiF(MAHJANG_HI HI)
     }
 
     if (hi_m2 && hi_m1)
+    {
         std::cout << CsControll::display({HI - 2, HI - 1, HI}) << " ";
+    }
     if (hi_m1 && hi_p1)
+    {
         std::cout << CsControll::display({HI - 1, HI, HI + 1}) << " ";
+    }
     if (hi_p1 && hi_p2)
+    {
         std::cout << CsControll::display({HI, HI + 1, HI + 2}) << "\n";
+    }
 
-    if (hi_m2 && hi_m1 + hi_m1 && hi_p1 + hi_p1 && hi_p2 == 1)
+    int n = (hi_m2 && hi_m1) + (hi_m1 && hi_p1) + (hi_p1 && hi_p2);
+
+    if (n == 1)
     {
         if (hi_m2 && hi_m1)
         {
@@ -183,8 +193,28 @@ bool PLAYER::chiF(MAHJANG_HI HI)
             return true;
         }
     }
-
-    // tsudukiwokaku
+    else if (n > 1)
+    {
+        if (hi_m2 && hi_m1)
+        {
+            std::cout << 4 - n << " : " << CsControll::display({HI - 2, HI - 1, HI});
+            n--;
+        }
+        if (hi_m1 && hi_p1)
+        {
+            std::cout << 4 - n << " : " << CsControll::display({HI - 1, HI, HI + 1});
+            n--;
+        }
+        if (hi_p1 && hi_p2)
+        {
+            std::cout << 4 - n << " : " << CsControll::display({HI, HI + 1, HI + 2});
+            n--;
+        }
+        std::cout << "\n"
+                  << "choose num\n";
+        int ans;
+        std::cin >> ans;
+    }
 }
 
 bool PLAYER::minkanF(MAHJANG_HI HI)
@@ -193,11 +223,71 @@ bool PLAYER::minkanF(MAHJANG_HI HI)
     {
         return false;
     }
-    std::cout << "pon(y/n)" << std::endl;
+    std::cout << "kan(y/n)" << std::endl;
     char ans;
     std::cin >> ans;
-    if (ans = 'y')
+    if (ans == 'y')
     {
         MINKAN.push_back(HI);
+        TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+        TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+        TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+
+        return true;
+    }
+    return false;
+}
+
+bool PLAYER::kakanF()
+{
+    if (std::find(PON.begin(), PON.end(), TSUMO) == PON.end())
+    {
+        return false;
+    }
+    std::cout << "kan(y/n)" << std::endl;
+    char ans;
+    std::cin >> ans;
+    if (ans == 'y')
+    {
+        MINKAN.push_back(TSUMO);
+        PON.erase(std::find(PON.begin(), PON.end(), TSUMO));
+        return true;
+    }
+}
+
+bool PLAYER::ankanF(){
+    std::vector<MAHJANG_HI> tehai = TEHAI;
+    tehai.push_back(TSUMO);
+    for(MAHJANG_HI HI : tehai){
+        if(std::count(tehai.begin(), tehai.end(), HI) != 4){
+            continue;
+        }
+        std::cout << "kan(y/n)" << std::endl;
+        char ans;
+        std::cin >> ans;
+        if (ans == 'y')
+        {
+            ANKAN.push_back(TSUMO);
+            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+            return true;
+        }
+    }
+}
+
+MAHJANG_HI PLAYER::discard(int n){
+    if(REACH_STICK){
+        n = 13;
+    }
+    if(n > 12){
+        return TSUMO;
+    }
+    else{
+        MAHJANG_HI HI = TEHAI[n];
+        TEHAI[n] = TSUMO;
+
+        return HI;
     }
 }
