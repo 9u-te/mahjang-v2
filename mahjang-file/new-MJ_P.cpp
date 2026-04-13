@@ -1,5 +1,6 @@
 #include "new-MJ_P.h"
 #include "cscontroll.h"
+#include "new-MJ_C.h"
 
 void PLAYER::repai()
 {
@@ -255,11 +256,14 @@ bool PLAYER::kakanF()
     }
 }
 
-bool PLAYER::ankanF(){
+bool PLAYER::ankanF()
+{
     std::vector<MAHJANG_HI> tehai = TEHAI;
     tehai.push_back(TSUMO);
-    for(MAHJANG_HI HI : tehai){
-        if(std::count(tehai.begin(), tehai.end(), HI) != 4){
+    for (MAHJANG_HI HI : tehai)
+    {
+        if (std::count(tehai.begin(), tehai.end(), HI) != 4)
+        {
             continue;
         }
         std::cout << "kan(y/n)" << std::endl;
@@ -277,15 +281,19 @@ bool PLAYER::ankanF(){
     }
 }
 
-MAHJANG_HI PLAYER::discard(int n){
-    if(REACH_STICK){
+MAHJANG_HI PLAYER::discard(int n)
+{
+    if (REACH_STICK)
+    {
         return TSUMO;
     }
 
-    if(n >= TEHAI.size()){
+    if (n >= TEHAI.size())
+    {
         return TSUMO;
     }
-    else{
+    else
+    {
         MAHJANG_HI HI = TEHAI[n];
         TEHAI[n] = TSUMO;
 
@@ -293,12 +301,24 @@ MAHJANG_HI PLAYER::discard(int n){
     }
 }
 
-bool ronF()
+bool PLAYER::ronF()
 {
-
 }
 
-bool tsumoF()
+bool PLAYER::tsumoF()
 {
-    
+    if(!bunseki1(TEHAI, TSUMO)) return false;
+
+    yaku_list = Calc::YAKU_CAL(*this);
+    if(yaku_list.empty()) return false;
+
+    std::cout << "tsumo(y/n)\n";
+    char ans;
+    std::cin >> ans;
+    if (ans == 'y')
+    {
+        return true;
+    }
+
+    return false;
 }

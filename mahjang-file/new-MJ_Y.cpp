@@ -511,5 +511,6 @@ namespace Yaku_F{
         if(P.AGARI.TYPE < 3 && P.AGARI.RANK != 1 && P.AGARI.RANK != 9) return false;
         return true;
     }
+
 }
 

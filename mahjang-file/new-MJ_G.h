@@ -55,9 +55,6 @@ public:
 
     void tsumo_tensu();
 
-
-    void yaku_hantei(PLAYER &P);
-
     void play_kyoku();
 
 };

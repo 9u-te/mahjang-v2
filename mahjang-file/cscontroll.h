@@ -19,6 +19,8 @@ namespace CsControll
     std::string display(const MAHJANG_HI HI);
 
     std::string display(const std::vector<MAHJANG_HI> HIVector);
+
+    int index();
 }
 
 //🀇, 🀈, 🀉, 🀊, 🀋, 🀌, 🀍, 🀎, 🀏

@@ -65,6 +65,8 @@ namespace Calc {
     }
     
     std::vector<YAKU> YAKU_CAL(const PLAYER &P){
+        using namespace Yaku_n;
+        
         std::vector<YAKU> yaku_list;
         if(Yaku_F::REACH_F(P)) yaku_list.push_back(REACH);
         if(Yaku_F::TWO_TO_EIGHT_F(P)) yaku_list.push_back(TWO_TO_EIGHT);

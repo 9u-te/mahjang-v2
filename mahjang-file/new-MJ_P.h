@@ -1,5 +1,6 @@
 #pragma once
 #include "new-MJ_H.h"
+#include "new-MJ_Y.h"
 #include <algorithm>
 
 class PLAYER

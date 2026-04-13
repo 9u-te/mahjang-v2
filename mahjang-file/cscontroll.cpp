@@ -18,3 +18,22 @@ std::string CsControll::display(const std::vector<MAHJANG_HI> HIVector){
     }
     return result;
 }
+
+int CsControll::index(){//入力
+    std::string hi;
+    int t;
+    int r;
+    int d;
+    while (true)
+    {
+        std::cin >> hi;
+
+        if(hi[0] == 'M') t = TileType::Manzu;
+        if(hi[0] == 'P') t = TileType::Pinzu;
+        if(hi[0] == 'S') t = TileType::Souzu;
+        
+
+        
+
+    }
+}

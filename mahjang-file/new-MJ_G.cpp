@@ -195,64 +195,53 @@ void Game::ron_tensu(int winner)
     PLAYER &hoju = players[current_player_num];
     PLAYER &agari = players[winner];
 
+    int stp = Calc::STANDARD_POINTS(agari);
+    if(agari.ID == oya_id)
+    {
+        agari.SCORE += 6*stp + 300*honba + kyotaku;
+        hoju.SCORE += 6*stp + 300*honba;
+    }
+    else
+    {
+        agari.SCORE += 4*stp + 300*honba + kyotaku;
+        hoju.SCORE += 4*stp + 300*honba;
+    }
+    
+    kyotaku = 0;
+
 }
 
-
-
-void Game::yaku_hantei(PLAYER &P)
+void Game::tsumo_tensu()
 {
-    P.yaku_list.clear();
-    using namespace Yaku_F;
-    // 1翻役---------------------------------------------------------------------------
-    if(REACH_F(P)) P.yaku_list.push_back(Yaku_n::REACH);
-    if(TWO_TO_EIGHT_F(P)) P.yaku_list.push_back(Yaku_n::TWO_TO_EIGHT);
-    if(MENZEN_TSUMO_F(P)) P.yaku_list.push_back(Yaku_n::MENZEN_TSUMO);
-    if(MY_WIND_F(P)) P.yaku_list.push_back(Yaku_n::MY_WIND);
-    if(GRAND_WIND_F(P)) P.yaku_list.push_back(Yaku_n::GRAND_WIND);
-    if(WHITE_F(P)) P.yaku_list.push_back(Yaku_n::WHITE);
-    if(GREEN_F(P)) P.yaku_list.push_back(Yaku_n::GREEN);
-    if(RED_F(P)) P.yaku_list.push_back(Yaku_n::RED);
-    if(PEACE_F(P)) P.yaku_list.push_back(Yaku_n::PEACE);
-    if(ONE_ORDER_F(P)) P.yaku_list.push_back(Yaku_n::ONE_ORDER);
-    if(UNDERSEA_F(P)) P.yaku_list.push_back(Yaku_n::UNDERSEA);
-    if(UNDERRIVER_F(P)) P.yaku_list.push_back(Yaku_n::UNDERRIVER);
-    if(ONE_SHOT_F(P)) P.yaku_list.push_back(Yaku_n::ONE_SHOT);
-    // 2翻役---------------------------------------------------------------------------
-    if(W_REACH_F(P)) P.yaku_list.push_back(Yaku_n::W_REACH);
-    if(SEVEN_PAIRS_F(P)) P.yaku_list.push_back(Yaku_n::SEVEN_PAIRS);
-    if(SMALL_THREE_ORIGIN_F(P)) P.yaku_list.push_back(Yaku_n::SMALL_THREE_ORIGIN);
-    if(THREE_COLOR_SAME_ORDER_F(P)) P.yaku_list.push_back(Yaku_n::THREE_COLOR_SAME_ORDER);
-    if(THREE_COLOR_SAME_COLORS_F(P)) P.yaku_list.push_back(Yaku_n::THREE_COLOR_SAME_COLORS);
-    if(THREE_SWORD_F(P)) P.yaku_list.push_back(Yaku_n::THREE_SWORD);
-    if(TOYTOY_F(P)) P.yaku_list.push_back(Yaku_n::TOYTOY);
-    if(THREE_DARK_SAME_F(P)) P.yaku_list.push_back(Yaku_n::THREE_DARK_SAME);
-    if(MIXED_F(P)) P.yaku_list.push_back(Yaku_n::MIXED);
-    if(STRAIGHT_F(P)) P.yaku_list.push_back(Yaku_n::STRAIGHT);
-    if(MIXED_OLD_HEAD_F(P)) P.yaku_list.push_back(Yaku_n::MIXED_OLD_HEAD);
-    // 3翻役---------------------------------------------------------------------------
-    if(MIXED_ONE_COLOR_F(P)) P.yaku_list.push_back(Yaku_n::MIXED_ONE_COLOR);
-    if(PURE_MIXED_F(P)) P.yaku_list.push_back(Yaku_n::PURE_MIXED);
-    if(TWO_ORDER_F(P)) P.yaku_list.push_back(Yaku_n::TWO_ORDER);
-    // 6翻役---------------------------------------------------------------------------
-    if(PURE_ONE_COLOR_F(P)) P.yaku_list.push_back(Yaku_n::PURE_ONE_COLOR);
-    // 役満---------------------------------------------------------------------------
-    if(BIG_THREE_ORIGIN_F(P)) P.yaku_list.push_back(Yaku_n::BIG_THREE_ORIGIN);
-    if(FOUR_DARK_SAME_F(P)) P.yaku_list.push_back(Yaku_n::FOUR_DARK_SAME);
-    if(CHAR_ONE_COLOR_F(P)) P.yaku_list.push_back(Yaku_n::CHAR_ONE_COLOR);
-    if(GREEN_ONE_COLOR_F(P)) P.yaku_list.push_back(Yaku_n::GREEN_ONE_COLOR);
-    if(PURE_OLD_HEAD_F(P)) P.yaku_list.push_back(Yaku_n::PURE_OLD_HEAD);
-    if(SMALL_FOUR_PLEASURE_F(P)) P.yaku_list.push_back(Yaku_n::SMALL_FOUR_PLEASURE);
-    if(THIRTEEN_ORPHANS_F(P)) P.yaku_list.push_back(Yaku_n::THIRTEEN_ORPHANS);
-    if(FOUR_SWORD_F(P)) P.yaku_list.push_back(Yaku_n::FOUR_SWORD);
-    if(NINE_GATES_F(P)) P.yaku_list.push_back(Yaku_n::NINE_GATES);
-    if(TENHO_F(P)) P.yaku_list.push_back(Yaku_n::TENHO);
-    if(CHIHO_F(P)) P.yaku_list.push_back(Yaku_n::CHIHO);
-    // ダブル役満---------------------------------------------------------------------------
-    if(BIG_FOUR_PLEASURE_F(P)) P.yaku_list.push_back(Yaku_n::BIG_FOUR_PLEASURE);
-    if(FOUR_DARK_SAME_SINGLE_F(P)) P.yaku_list.push_back(Yaku_n::FOUR_DARK_SAME_SINGLE);
-    if(PURE_NINE_GATES_F(P)) P.yaku_list.push_back(Yaku_n::PURE_NINE_GATES);
-    if(THIRTEEN_ORPHANS_SUPER_F(P)) P.yaku_list.push_back(Yaku_n::THIRTEEN_ORPHANS_SUPER);
+    PLAYER &agari = players[current_player_num];
+    int stp = Calc::STANDARD_POINTS(agari);
+
+    if(agari.ID == oya_id)//親の自摸
+    {
+        agari.SCORE += 6*stp + 300*honba + kyotaku;
+        for(PLAYER &p : players)
+        {
+            if(p.ID == current_player_num) continue;
+
+            p.SCORE -= 2*stp + 100*honba;
+        }
+    }
+    else//子の自摸
+    {
+        agari.SCORE += 4*stp + 300*honba + kyotaku;
+        for(PLAYER &p : players)
+        {
+            if(p.ID == current_player_num) continue;
+
+            if(p.ID == oya_id) p.SCORE -= 2*stp + 100*honba;
+            else p.SCORE -= 1*stp + 100*honba;
+        }
+    }
+
+    kyotaku = 0;
 }
+
+
 
 
 
@@ -266,14 +255,18 @@ void Game::play_kyoku()
 
         TsumoAction(current_player);
 
-        if(current_player.bunseki1(current_player.TEHAI, current_player.TSUMO))
-        {//つも上がり
-            yaku_hantei(current_player);
-
-            if(!current_player.yaku_list.empty()){
-                current_player.tsumoF();
-            }
+        if(current_player.tsumoF())
+        {
+            tsumo_tensu();
         }
+        else if(current_player.ankanF())
+        {
+            doramekuri();
+            current_player.discard();
+        }
+        
+
+
 
         
 
