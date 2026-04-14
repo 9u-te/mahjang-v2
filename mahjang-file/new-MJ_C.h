@@ -1,6 +1,8 @@
 #pragma once
-
 #include "new-MJ_Y.h"
+
+class YAKU;
+class PLAYER;
 
 namespace Calc{
 

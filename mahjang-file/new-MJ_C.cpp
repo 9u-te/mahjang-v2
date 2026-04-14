@@ -1,9 +1,11 @@
 #include "new-MJ_C.h"
+#include "new-MJ_P.h"
+
 namespace Calc {
     int FU_CAL(const PLAYER &P){
-        if(Yaku_F::SEVEN_PAIRS_F(P)) return 25;
+        if(Yaku_F::SEVEN_PAIRS_F(&P)) return 25;
     
-        if(Yaku_F::PEACE_F(P)){
+        if(Yaku_F::PEACE_F(&P)){
             if(P.AGARI == P.TSUMO) return 20;
             else return 30;
         }
@@ -68,55 +70,55 @@ namespace Calc {
         using namespace Yaku_n;
         
         std::vector<YAKU> yaku_list;
-        if(Yaku_F::REACH_F(P)) yaku_list.push_back(REACH);
-        if(Yaku_F::TWO_TO_EIGHT_F(P)) yaku_list.push_back(TWO_TO_EIGHT);
-        if(Yaku_F::MENZEN_TSUMO_F(P)) yaku_list.push_back(MENZEN_TSUMO);
-        if(Yaku_F::MY_WIND_F(P)) yaku_list.push_back(MY_WIND);
-        if(Yaku_F::GRAND_WIND_F(P)) yaku_list.push_back(GRAND_WIND);
-        if(Yaku_F::WHITE_F(P)) yaku_list.push_back(WHITE);
-        if(Yaku_F::GREEN_F(P)) yaku_list.push_back(GREEN);
-        if(Yaku_F::RED_F(P)) yaku_list.push_back(RED);
-        if(Yaku_F::PEACE_F(P)) yaku_list.push_back(PEACE);
-        if(Yaku_F::ONE_ORDER_F(P)) yaku_list.push_back(ONE_ORDER);
-        //if(SPEAR_SWORD_F(P)) yaku_list.push_back(SPEAR_SWORD);
-        if(Yaku_F::UNDERSEA_F(P)) yaku_list.push_back(UNDERSEA);
-        if(Yaku_F::UNDERRIVER_F(P)) yaku_list.push_back(UNDERRIVER);
-        if(Yaku_F::ONE_SHOT_F(P)) yaku_list.push_back(ONE_SHOT);
+        if(Yaku_F::REACH_F(&P)) yaku_list.push_back(REACH);
+        if(Yaku_F::TWO_TO_EIGHT_F(&P)) yaku_list.push_back(TWO_TO_EIGHT);
+        if(Yaku_F::MENZEN_TSUMO_F(&P)) yaku_list.push_back(MENZEN_TSUMO);
+        if(Yaku_F::MY_WIND_F(&P)) yaku_list.push_back(MY_WIND);
+        if(Yaku_F::GRAND_WIND_F(&P)) yaku_list.push_back(GRAND_WIND);
+        if(Yaku_F::WHITE_F(&P)) yaku_list.push_back(WHITE);
+        if(Yaku_F::GREEN_F(&P)) yaku_list.push_back(GREEN);
+        if(Yaku_F::RED_F(&P)) yaku_list.push_back(RED);
+        if(Yaku_F::PEACE_F(&P)) yaku_list.push_back(PEACE);
+        if(Yaku_F::ONE_ORDER_F(&P)) yaku_list.push_back(ONE_ORDER);
+        //if(SPEAR_SWORD_F(&P)) yaku_list.push_back(SPEAR_SWORD);
+        if(Yaku_F::UNDERSEA_F(&P)) yaku_list.push_back(UNDERSEA);
+        if(Yaku_F::UNDERRIVER_F(&P)) yaku_list.push_back(UNDERRIVER);
+        if(Yaku_F::ONE_SHOT_F(&P)) yaku_list.push_back(ONE_SHOT);
         //2翻役---------------------------------------------------------------------------
-        if(Yaku_F::W_REACH_F(P)) yaku_list.push_back(W_REACH);
-        if(Yaku_F::SEVEN_PAIRS_F(P)) yaku_list.push_back(SEVEN_PAIRS);
-        if(Yaku_F::SMALL_THREE_ORIGIN_F(P)) yaku_list.push_back(SMALL_THREE_ORIGIN);
-        if(Yaku_F::THREE_COLOR_SAME_ORDER_F(P)) yaku_list.push_back(THREE_COLOR_SAME_ORDER);
-        if(Yaku_F::THREE_COLOR_SAME_COLORS_F(P)) yaku_list.push_back(THREE_COLOR_SAME_COLORS);
-        if(Yaku_F::THREE_SWORD_F(P)) yaku_list.push_back(THREE_SWORD);
-        if(Yaku_F::TOYTOY_F(P)) yaku_list.push_back(TOYTOY);
-        if(Yaku_F::THREE_DARK_SAME_F(P)) yaku_list.push_back(THREE_DARK_SAME);
-        if(Yaku_F::MIXED_F(P)) yaku_list.push_back(MIXED);
-        if(Yaku_F::STRAIGHT_F(P)) yaku_list.push_back(STRAIGHT);
-        if(Yaku_F::MIXED_OLD_HEAD_F(P)) yaku_list.push_back(MIXED_OLD_HEAD);
+        if(Yaku_F::W_REACH_F(&P)) yaku_list.push_back(W_REACH);
+        if(Yaku_F::SEVEN_PAIRS_F(&P)) yaku_list.push_back(SEVEN_PAIRS);
+        if(Yaku_F::SMALL_THREE_ORIGIN_F(&P)) yaku_list.push_back(SMALL_THREE_ORIGIN);
+        if(Yaku_F::THREE_COLOR_SAME_ORDER_F(&P)) yaku_list.push_back(THREE_COLOR_SAME_ORDER);
+        if(Yaku_F::THREE_COLOR_SAME_COLORS_F(&P)) yaku_list.push_back(THREE_COLOR_SAME_COLORS);
+        if(Yaku_F::THREE_SWORD_F(&P)) yaku_list.push_back(THREE_SWORD);
+        if(Yaku_F::TOYTOY_F(&P)) yaku_list.push_back(TOYTOY);
+        if(Yaku_F::THREE_DARK_SAME_F(&P)) yaku_list.push_back(THREE_DARK_SAME);
+        if(Yaku_F::MIXED_F(&P)) yaku_list.push_back(MIXED);
+        if(Yaku_F::STRAIGHT_F(&P)) yaku_list.push_back(STRAIGHT);
+        if(Yaku_F::MIXED_OLD_HEAD_F(&P)) yaku_list.push_back(MIXED_OLD_HEAD);
         //3翻役---------------------------------------------------------------------------
-        if(Yaku_F::MIXED_ONE_COLOR_F(P)) yaku_list.push_back(MIXED_ONE_COLOR);
-        if(Yaku_F::PURE_MIXED_F(P)) yaku_list.push_back(PURE_MIXED);
-        if(Yaku_F::TWO_ORDER_F(P)) yaku_list.push_back(TWO_ORDER); 
+        if(Yaku_F::MIXED_ONE_COLOR_F(&P)) yaku_list.push_back(MIXED_ONE_COLOR);
+        if(Yaku_F::PURE_MIXED_F(&P)) yaku_list.push_back(PURE_MIXED);
+        if(Yaku_F::TWO_ORDER_F(&P)) yaku_list.push_back(TWO_ORDER); 
         //6翻役---------------------------------------------------------------------------
-        if(Yaku_F::PURE_ONE_COLOR_F(P)) yaku_list.push_back(PURE_ONE_COLOR);   
+        if(Yaku_F::PURE_ONE_COLOR_F(&P)) yaku_list.push_back(PURE_ONE_COLOR);   
         //役満---------------------------------------------------------------------------
-        if(Yaku_F::BIG_THREE_ORIGIN_F(P)) yaku_list.push_back(BIG_THREE_ORIGIN);
-        if(Yaku_F::FOUR_DARK_SAME_F(P)) yaku_list.push_back(FOUR_DARK_SAME);
-        if(Yaku_F::CHAR_ONE_COLOR_F(P)) yaku_list.push_back(CHAR_ONE_COLOR);
-        if(Yaku_F::GREEN_ONE_COLOR_F(P)) yaku_list.push_back(GREEN_ONE_COLOR);
-        if(Yaku_F::PURE_OLD_HEAD_F(P)) yaku_list.push_back(PURE_OLD_HEAD);
-        if(Yaku_F::SMALL_FOUR_PLEASURE_F(P)) yaku_list.push_back(SMALL_FOUR_PLEASURE);
-        if(Yaku_F::THIRTEEN_ORPHANS_F(P)) yaku_list.push_back(THIRTEEN_ORPHANS);
-        if(Yaku_F::FOUR_SWORD_F(P)) yaku_list.push_back(FOUR_SWORD);
-        if(Yaku_F::NINE_GATES_F(P)) yaku_list.push_back(NINE_GATES);
-        if(Yaku_F::TENHO_F(P)) yaku_list.push_back(TENHO);
-        if(Yaku_F::CHIHO_F(P)) yaku_list.push_back(CHIHO);
+        if(Yaku_F::BIG_THREE_ORIGIN_F(&P)) yaku_list.push_back(BIG_THREE_ORIGIN);
+        if(Yaku_F::FOUR_DARK_SAME_F(&P)) yaku_list.push_back(FOUR_DARK_SAME);
+        if(Yaku_F::CHAR_ONE_COLOR_F(&P)) yaku_list.push_back(CHAR_ONE_COLOR);
+        if(Yaku_F::GREEN_ONE_COLOR_F(&P)) yaku_list.push_back(GREEN_ONE_COLOR);
+        if(Yaku_F::PURE_OLD_HEAD_F(&P)) yaku_list.push_back(PURE_OLD_HEAD);
+        if(Yaku_F::SMALL_FOUR_PLEASURE_F(&P)) yaku_list.push_back(SMALL_FOUR_PLEASURE);
+        if(Yaku_F::THIRTEEN_ORPHANS_F(&P)) yaku_list.push_back(THIRTEEN_ORPHANS);
+        if(Yaku_F::FOUR_SWORD_F(&P)) yaku_list.push_back(FOUR_SWORD);
+        if(Yaku_F::NINE_GATES_F(&P)) yaku_list.push_back(NINE_GATES);
+        if(Yaku_F::TENHO_F(&P)) yaku_list.push_back(TENHO);
+        if(Yaku_F::CHIHO_F(&P)) yaku_list.push_back(CHIHO);
         //ダブル役満---------------------------------------------------------------------------
-        if(Yaku_F::BIG_FOUR_PLEASURE_F(P)) yaku_list.push_back(BIG_FOUR_PLEASURE);
-        if(Yaku_F::FOUR_DARK_SAME_SINGLE_F(P)) yaku_list.push_back(FOUR_DARK_SAME_SINGLE);
-        if(Yaku_F::PURE_NINE_GATES_F(P)) yaku_list.push_back(PURE_NINE_GATES);
-        if(Yaku_F::THIRTEEN_ORPHANS_SUPER_F(P)) yaku_list.push_back(THIRTEEN_ORPHANS_SUPER);
+        if(Yaku_F::BIG_FOUR_PLEASURE_F(&P)) yaku_list.push_back(BIG_FOUR_PLEASURE);
+        if(Yaku_F::FOUR_DARK_SAME_SINGLE_F(&P)) yaku_list.push_back(FOUR_DARK_SAME_SINGLE);
+        if(Yaku_F::PURE_NINE_GATES_F(&P)) yaku_list.push_back(PURE_NINE_GATES);
+        if(Yaku_F::THIRTEEN_ORPHANS_SUPER_F(&P)) yaku_list.push_back(THIRTEEN_ORPHANS_SUPER);
 
         return yaku_list;
     }

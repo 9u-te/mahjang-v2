@@ -1,7 +1,9 @@
 #pragma once
 #include "new-MJ_H.h"
-#include "new-MJ_Y.h"
 #include <algorithm>
+
+
+struct YAKU;
 
 class PLAYER
 {
@@ -12,7 +14,7 @@ public:
     MAHJANG_HI JIFU; // 自風
 
     MAHJANG_HI BAFU; // 場風
-    int yama_left_num;
+    static int yama_left_num;
 
     std::vector<MAHJANG_HI> TEHAI;
     std::vector<MAHJANG_HI> PON;
@@ -29,7 +31,7 @@ public:
     MAHJANG_HI KIRU;
     MAHJANG_HI AGARI;
 
-    std::vector<YAKU> yaku_list;
+    std::vector<*YAKU> yaku_list;
 
     bool REACH_STICK; // 立直棒
     bool W_REACH_STICK;
@@ -76,7 +78,7 @@ public:
     //打牌
     MAHJANG_HI discard(int n);
     // ronagari
-    bool ronF();
+    //bool ronF();
     // tsumoagari
     bool tsumoF();
 };

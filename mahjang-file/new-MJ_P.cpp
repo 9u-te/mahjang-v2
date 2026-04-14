@@ -1,5 +1,5 @@
-#include "new-MJ_P.h"
 #include "cscontroll.h"
+#include "new-MJ_P.h"
 #include "new-MJ_C.h"
 
 void PLAYER::repai()
@@ -254,6 +254,7 @@ bool PLAYER::kakanF()
         PON.erase(std::find(PON.begin(), PON.end(), TSUMO));
         return true;
     }
+    return false;
 }
 
 bool PLAYER::ankanF()
@@ -279,6 +280,7 @@ bool PLAYER::ankanF()
             return true;
         }
     }
+    return false;
 }
 
 MAHJANG_HI PLAYER::discard(int n)
@@ -301,9 +303,12 @@ MAHJANG_HI PLAYER::discard(int n)
     }
 }
 
-bool PLAYER::ronF()
+/*
+bool PLAYER::ronF(MAHJANG_HI HI)
 {
+    
 }
+*/
 
 bool PLAYER::tsumoF()
 {

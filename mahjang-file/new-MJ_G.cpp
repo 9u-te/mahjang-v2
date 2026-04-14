@@ -1,4 +1,6 @@
 #include "new-MJ_G.h"
+#include "cscontroll.h"
+#include "new-MJ_P.h"
 
 Game::Game() : BAFU(TON), YAMA(), WANGPAI(), DraHyouji(), uraDraHyouji()
 {
@@ -252,8 +254,11 @@ void Game::play_kyoku()
     while (!YAMA.empty())
     {
         PLAYER &current_player = players[current_player_num];
+        current_player.yama_left_num = YAMA.size();
 
         TsumoAction(current_player);
+
+        MAHJANG_HI SUTEHI;
 
         if(current_player.tsumoF())
         {
@@ -262,15 +267,18 @@ void Game::play_kyoku()
         else if(current_player.ankanF())
         {
             doramekuri();
-            current_player.discard();
+            continue;
         }
+        else
+        {
+            int ind = CsControll::index();
+            current_player.discard(ind);
+        }
+
         
 
-
-
-        
-
-
+        //次の人
+        current_player_num = (current_player_num + 1)%4;
 
     }
 }

@@ -3,6 +3,8 @@
 #include <iostream>
 
 
+
+
 namespace TileType{
     const int Manzu = 0;
     const int Pinzu = 1;
