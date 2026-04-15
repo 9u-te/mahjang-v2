@@ -103,3 +103,17 @@ inline const std::vector<MAHJANG_HI> ALL_HI = { M1, M2, M3, M4, M5, M6, M7, M8, 
                                                 TON, NAM, SHA, PAY,
                                                 HAK, HAT, CHU};
 
+struct YAKU{
+    public:
+        int han;
+        int naki_han;
+        int yaku_man;
+        bool naki_yaku_man;
+    
+        YAKU(int h, int nh, int y, int ny){
+            han = h;
+            naki_han = nh;
+            yaku_man = y;
+            naki_yaku_man = ny;
+        };
+};

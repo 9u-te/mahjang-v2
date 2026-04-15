@@ -31,7 +31,6 @@ public:
     MAHJANG_HI KIRU;
     MAHJANG_HI AGARI;
 
-    std::vector<*YAKU> yaku_list;
 
     bool REACH_STICK; // 立直棒
     bool W_REACH_STICK;

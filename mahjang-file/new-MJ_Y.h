@@ -3,20 +3,7 @@
 class PLAYER;
 
 
-struct YAKU{
-    public:
-        int han;
-        int naki_han;
-        int yaku_man;
-        bool naki_yaku_man;
-    
-        YAKU(int h, int nh, int y, int ny){
-            han = h;
-            naki_han = nh;
-            yaku_man = y;
-            naki_yaku_man = ny;
-        };
-};
+
 
 namespace Yaku_n{
         

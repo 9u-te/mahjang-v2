@@ -314,7 +314,7 @@ bool PLAYER::tsumoF()
 {
     if(!bunseki1(TEHAI, TSUMO)) return false;
 
-    yaku_list = Calc::YAKU_CAL(*this);
+    std::vector<YAKU> yaku_list = Calc::YAKU_CAL(*this);
     if(yaku_list.empty()) return false;
 
     std::cout << "tsumo(y/n)\n";
