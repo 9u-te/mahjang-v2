@@ -1,5 +1,7 @@
 #pragma once
-#include "new-MJ_C.h"
+#include "mj_4C.h"
+
+#include "mj_2P.h"
 
 #include <random>
 #include <iostream>

@@ -1,6 +1,6 @@
-#include "new-MJ_G.h"
+#include "mj_5G.h"
 #include "cscontroll.h"
-#include "new-MJ_P.h"
+#include "mj_2PP.h"
 
 Game::Game() : BAFU(TON), YAMA(), WANGPAI(), DraHyouji(), uraDraHyouji()
 {

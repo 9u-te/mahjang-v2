@@ -1,6 +1,7 @@
 #include "cscontroll.h"
-#include "new-MJ_P.h"
-#include "new-MJ_C.h"
+#include "mj_2P.h"
+#include "mj_4C.h"
+
 
 void PLAYER::repai()
 {

@@ -1,4 +1,4 @@
-#include "new-MJ_G.h"
+#include "mj_5G.h"
 
 int main(){
     Game mahjang;

@@ -1,5 +1,5 @@
 #pragma once
-#include "new-MJ_Y.h"
+#include "mj_3Y.h"
 
 class YAKU;
 class PLAYER;

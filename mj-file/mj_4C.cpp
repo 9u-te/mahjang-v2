@@ -1,5 +1,5 @@
-#include "new-MJ_C.h"
-#include "new-MJ_P.h"
+#include "mj_4C.h"
+#include "mj_2P.h"
 
 namespace Calc {
     int FU_CAL(const PLAYER &P){

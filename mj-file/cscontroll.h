@@ -1,5 +1,5 @@
 #pragma once
-#include "new-MJ_H.h"
+#include "mj_1H.h"
 #include <string>
 
 namespace CsControll

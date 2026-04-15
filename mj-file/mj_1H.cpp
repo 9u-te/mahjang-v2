@@ -1,4 +1,4 @@
-#include "new-MJ_H.h"
+#include "mj_1H.h"
 
 
 bool MAHJANG_HI::operator==(const MAHJANG_HI HI) const{//イコール
