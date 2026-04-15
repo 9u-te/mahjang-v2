@@ -7,8 +7,8 @@
 #include <iostream>
 
 // ランダムシード
-std::random_device rd;
-std::mt19937 g(rd());
+inline std::random_device rd;
+inline std::mt19937 g(rd());
 
 class Game
 {

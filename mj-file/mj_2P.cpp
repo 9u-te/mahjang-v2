@@ -217,6 +217,7 @@ bool PLAYER::chiF(MAHJANG_HI HI)
         int ans;
         std::cin >> ans;
     }
+    return false;
 }
 
 bool PLAYER::minkanF(MAHJANG_HI HI)

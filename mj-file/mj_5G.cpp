@@ -1,6 +1,6 @@
 #include "mj_5G.h"
 #include "cscontroll.h"
-#include "mj_2PP.h"
+#include "mj_2P.h"
 
 Game::Game() : BAFU(TON), YAMA(), WANGPAI(), DraHyouji(), uraDraHyouji()
 {
@@ -274,8 +274,6 @@ void Game::play_kyoku()
             int ind = CsControll::index();
             current_player.discard(ind);
         }
-
-        
 
         //次の人
         current_player_num = (current_player_num + 1)%4;

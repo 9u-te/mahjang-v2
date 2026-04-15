@@ -129,7 +129,7 @@ namespace Calc {
         for(YAKU y : yaku_list){
             all_yaku += P.MENZEN ? y.han : y.naki_han;
         }
-        
+        return all_yaku;
     }
     
     int YAKUMAN_CAL(const PLAYER &P){
@@ -137,11 +137,12 @@ namespace Calc {
         int all_yakuman = 0;
         for(YAKU y : yaku_list){
             all_yakuman += y.yaku_man;
-        } 
+        }
+        return all_yakuman;
     }
     
     int DORA_CAL(const PLAYER &P){
-        
+        return 1;
     }
     
     int STANDARD_POINTS(const PLAYER &P){

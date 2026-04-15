@@ -14,7 +14,7 @@ public:
     MAHJANG_HI JIFU; // 自風
 
     MAHJANG_HI BAFU; // 場風
-    static int yama_left_num;
+    inline static int yama_left_num = 0;
 
     std::vector<MAHJANG_HI> TEHAI;
     std::vector<MAHJANG_HI> PON;
