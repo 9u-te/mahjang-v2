@@ -10,6 +10,7 @@ Game::Game() : BAFU(TON), YAMA(), WANGPAI(), DraHyouji(), uraDraHyouji()
 
         KAWAs.emplace_back();
     }
+    
 }
 
 int Game::dicision_oya()
@@ -21,12 +22,12 @@ int Game::dicision_oya()
 
     for (int i = 0; i < 4; i++)
     {
-        players[(oya_num + i) % 4].JIFU = MAHJANG_HI(TileType::Kaze, i, false);
+        players[(oya_num + i) % 4].JIFU = MAHJANG_HI(TileType::Kaze, i + 1, false);
     }
     return oya_num;
 }
 
-void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
+void Game::initilize_kyoku()
 { // カンカウントのリセット
     KanCount = 0;
     YAMA.clear();
@@ -34,6 +35,23 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
     DraHyouji.clear();
     uraDraHyouji.clear();
 
+    for (int i = 0; i < 4; i++)
+    {
+        players[(oya_id + i) % 4].JIFU = MAHJANG_HI(TileType::Kaze, i + 1, false);
+    }
+
+    if(BAFU == TON) std::cout << "東";
+    else if(BAFU == NAM) std::cout << "南";
+    else if(BAFU == SHA) std::cout << "西";
+    else if(BAFU == PAY) std::cout << "北";
+    std::cout << kyoku%4 + 1 << "局" << honba << "本場" <<std::endl;
+
+    std::cout << "あなたは";
+    if(players[0].JIFU == TON) std::cout << "東家\n";
+    else if(players[0].JIFU == NAM) std::cout << "南家\n";
+    else if(players[0].JIFU == SHA) std::cout << "西家\n";
+    else if(players[0].JIFU == PAY) std::cout << "北家\n";
+    std::cout << std::endl;
 
     // 河のリセット
 
@@ -103,7 +121,7 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
     YAMA.erase(YAMA.end() - 14, YAMA.end());
 
     // どら表示牌
-    DraHyouji = {WANGPAI[9], HiUra, HiUra, HiUra};
+    DraHyouji = {WANGPAI[9], HiUra, HiUra, HiUra, HiUra};
 
 
 
@@ -135,49 +153,62 @@ void Game::initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba)
     {
         player.repai();
     }
+
+    std::cout << "どら表示:" << CsControll::display(DraHyouji) << std::endl;
+    std::cout << CsControll::display(players[0].TEHAI) << std::endl;
 }
 
+// つも
 void Game::TsumoAction(PLAYER &player)
 {
     player.TSUMO = YAMA.back();
     YAMA.pop_back();
 }
 
+//捨てる
 void Game::discard(MAHJANG_HI HI, int suteru_current_player_num)
 {
     KAWAs[suteru_current_player_num].push_back(players[suteru_current_player_num].TSUMO);
 }
 
+//リーチ
 void Game::reachF()
 {
     kyotaku += 1000;
 }
 
-int Game::ponF(MAHJANG_HI HI, int pon_current_player_num)
+//ポン
+int Game::ponF(int pon_current_player_num)
 {
     KAWAs[current_player_num].pop_back();
-    return (pon_current_player_num + 1)%4;
+    return pon_current_player_num;
 
 }
 
-void Game::chiF(MAHJANG_HI HI, int chi_current_player_num)
+//チー
+void Game::chiF(int chi_current_player_num)
 {
     KAWAs[current_player_num].pop_back();
 }
 
-int Game::minkanF(MAHJANG_HI HI, int kan_current_player_num)
+//みんかん
+int Game::minkanF(int kan_current_player_num)
 {
     KAWAs[current_player_num].pop_back();
-    return (kan_current_player_num + 1)%4;
+    return kan_current_player_num;
 }
 
+//どらめくり
 void Game::doramekuri()
 {
     auto it = std::find(DraHyouji.begin(), DraHyouji.end(), HiUra);
 
-    *it = YAMA[9 - 2*(it - DraHyouji.begin())];
+    *it = WANGPAI[9 - 2*(it - DraHyouji.begin())];
+
+    std::cout << "どら表示:" << CsControll::display(DraHyouji) << std::endl;
 }
 
+//流局
 void Game::ryukyoku()
 {
     std::vector<MAHJANG_HI>  oya_tempai = players[oya_id].TemPai0(players[oya_id].TEHAI);
@@ -189,9 +220,12 @@ void Game::ryukyoku()
     {
         honba = 0;
         oya_id = (oya_id + 1)%4;
+        kyoku = kyoku + 1;
+        BAFU = MAHJANG_HI(TileType::Kaze, kyoku/4 + 1, 0);
     }
 }
 
+//で上がり点数
 void Game::ron_tensu(int winner)
 {
     PLAYER &hoju = players[current_player_num];
@@ -213,6 +247,7 @@ void Game::ron_tensu(int winner)
 
 }
 
+//つも上がりテンス
 void Game::tsumo_tensu()
 {
     PLAYER &agari = players[current_player_num];
@@ -247,7 +282,7 @@ void Game::tsumo_tensu()
 
 
 
-void Game::play_kyoku()
+int Game::play_kyoku()
 {
     current_player_num = oya_id;
 
@@ -257,26 +292,87 @@ void Game::play_kyoku()
         current_player.yama_left_num = YAMA.size();
 
         TsumoAction(current_player);
-
-        MAHJANG_HI SUTEHI;
-
-        if(current_player.tsumoF())
-        {
-            tsumo_tensu();
+        if(current_player.ID == 0){
+            std::cout << "0123456789" << std::endl;
+            std::cout << CsControll::display(current_player.TEHAI) << ':' << CsControll::display(current_player.TSUMO) << std::endl;
         }
-        else if(current_player.ankanF())
-        {
-            doramekuri();
-            continue;
+        MAHJANG_HI SUTEHI;//捨てられた牌
+
+        if(current_player.ID == 0){
+            // あんかん
+            if(current_player.ankanF()){
+                if(KanCount == 4){
+                    ryukyoku();
+                    return 0;
+                }
+                doramekuri();
+                TsumoAction(current_player);//嶺上のかわり
+                KanCount++;
+            }
+            //リーチ
+            if(current_player.reachF()){
+                kyotaku += 1000;
+            }
+            //つも
+            if(current_player.tsumoF()){
+                tsumo_tensu();
+                return 1;
+            }
         }
-        else
-        {
+        
+
+
+
+        if(current_player.ID == 0){
+            
+            std::cout << "捨てる牌を選んでください" << std::endl;
             int ind = CsControll::index();
-            current_player.discard(ind);
+            SUTEHI = current_player.discard(ind);
+        }
+        else {
+            SUTEHI = current_player.discard(13);
+        }
+        current_player.repai();
+
+        if(current_player.JIFU == TON) std::cout << "東家: ";
+        else if(current_player.JIFU == NAM) std::cout << "南家: ";
+        else if(current_player.JIFU == SHA) std::cout << "西家: ";
+        else if(current_player.JIFU == PAY) std::cout << "北家: ";
+
+        KAWAs[current_player_num].push_back(SUTEHI);
+        
+        std::cout << CsControll::display(KAWAs[current_player_num]) << "\n" << std::endl;
+        
+        //鳴き チーは後で実装
+        for(PLAYER &p : players){
+            if(p.ID == 0){
+                if(p.ponF(SUTEHI)){
+                    current_player_num = ponF(p.ID);
+                    break;
+                }
+                if (p.minkanF(SUTEHI)){
+                    if(KanCount == 4){
+                        ryukyoku();
+                        return 0;
+                    }
+                    current_player_num = minkanF(p.ID);
+                    TsumoAction(p);
+                    doramekuri();
+                    KanCount++;
+                }
+                
+            }
+
         }
 
         //次の人
         current_player_num = (current_player_num + 1)%4;
-
     }
+
+    if(YAMA.empty()){
+        std::cout << "===流局===\n" << std::endl;
+        ryukyoku();
+        return 0;
+    }
+    return 0;
 }

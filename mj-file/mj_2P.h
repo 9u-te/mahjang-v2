@@ -63,7 +63,7 @@ public:
     std::vector<std::vector<MAHJANG_HI>> TemPai1(MAHJANG_HI another_hi);
 
     // 立直する
-    void reachF();
+    bool reachF();
     // ポンする
     bool ponF(MAHJANG_HI HI);
     // チーする

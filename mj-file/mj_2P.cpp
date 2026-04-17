@@ -115,14 +115,31 @@ std::vector<std::vector<MAHJANG_HI>> PLAYER::TemPai1(MAHJANG_HI another_hi)
     return result;
 }
 
-void PLAYER::reachF()
-{
-    if (W_REACH_FRAG)
-        W_REACH_STICK = true;
-    else
-        REACH_STICK = true;
+bool PLAYER::reachF()
+{   
+    if(REACH_STICK || W_REACH_STICK) return false;
+    std::vector<std::vector<MAHJANG_HI>> machis = TemPai1(TSUMO);
+    int all_size = 0;
+    for(std::vector<MAHJANG_HI>& machi : machis)
+    {
+        all_size += machi.size();
+    }
+    if(all_size == 0){
+        return false;
+    }
+    std::cout << "reach(y/n)" << std::endl;
+    char ans;
+    std::cin >> ans;
+    if (ans == 'y'){
+        if (W_REACH_FRAG)
+            W_REACH_STICK = true;
+        else
+            REACH_STICK = true;
 
-    SCORE -= 1000;
+        SCORE -= 1000;
+        return true;
+    }
+    return false;
 }
 
 bool PLAYER::ponF(MAHJANG_HI HI)

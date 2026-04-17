@@ -17,8 +17,9 @@ public:
     std::vector<MAHJANG_HI> WANGPAI; // 王牌
 
     int kyotaku;//供託にあるリーチ棒
-    int honba;
-    MAHJANG_HI BAFU; // 場風
+    int honba = 0;
+    int kyoku = 0;
+    MAHJANG_HI BAFU = TON; // 場風
     int KanCount;
 
     std::vector<MAHJANG_HI> DraHyouji;
@@ -30,12 +31,13 @@ public:
     int current_player_num;
     int oya_id;
 
+
     Game();
 
     //oyagime
     int dicision_oya();
     //shokika
-    void initilize_kyoku(MAHJANG_HI bafu, int kyoku, int honba);
+    void initilize_kyoku();
     //tsumo raseru
     void TsumoAction(PLAYER &player);
 
@@ -43,11 +45,11 @@ public:
 
     void reachF();
 
-    int ponF(MAHJANG_HI HI, int pon_player_num);
+    int ponF(int pon_player_num);
 
-    void chiF(MAHJANG_HI HI, int chi_player_num);
+    void chiF(int chi_player_num);
 
-    int minkanF(MAHJANG_HI HI, int kan_player_num);
+    int minkanF(int kan_player_num);
 
     void doramekuri();
 
@@ -57,6 +59,6 @@ public:
 
     void tsumo_tensu();
 
-    void play_kyoku();
+    int play_kyoku();
 
 };
