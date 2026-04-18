@@ -68,8 +68,11 @@ void Game::initilize_kyoku()
         player.CHI.clear();
         player.MINKAN.clear();
         player.ANKAN.clear();
+        player.NAKI.clear();
         player.reset_mentsu();
-
+        
+        player.REACH_STICK = false;
+        player.W_REACH_STICK = false;
         player.W_REACH_FRAG = true;
     }
 
@@ -153,6 +156,17 @@ void Game::initilize_kyoku()
     {
         player.repai();
     }
+
+    //各プレイヤーの点数
+    for(PLAYER &p : players){
+        if(p.JIFU == TON) std::cout << "東家: ";
+        else if(p.JIFU == NAM) std::cout << "南家: ";
+        else if(p.JIFU == SHA) std::cout << "西家: ";
+        else if(p.JIFU == PAY) std::cout << "北家: ";
+        std::cout << p.SCORE << std::endl;
+    }
+
+
 
     std::cout << "どら表示:" << CsControll::display(DraHyouji) << std::endl;
     std::cout << CsControll::display(players[0].TEHAI) << std::endl;
@@ -260,6 +274,7 @@ void Game::tsumo_tensu()
         {
             if(p.ID == current_player_num) continue;
 
+
             p.SCORE -= 2*stp + 100*honba;
         }
     }
@@ -284,6 +299,7 @@ void Game::tsumo_tensu()
 
 int Game::play_kyoku()
 {
+    //親からスタート
     current_player_num = oya_id;
 
     while (!YAMA.empty())
@@ -294,9 +310,23 @@ int Game::play_kyoku()
         TsumoAction(current_player);
         if(current_player.ID == 0){
             std::cout << "0123456789" << std::endl;
-            std::cout << CsControll::display(current_player.TEHAI) << ':' << CsControll::display(current_player.TSUMO) << std::endl;
+            std::cout << CsControll::display(current_player.TEHAI) << ':' << CsControll::display(current_player.TSUMO);
+            for(std::pair pair : current_player.NAKI){
+                if(pair.first == 0){
+                    std::cout << CsControll::display({pair.second, pair.second, pair.second}) << " ";
+                }
+                else if(pair.first == 2){
+                    std::cout << CsControll::display({pair.second, pair.second, pair.second, pair.second}) << " "; 
+                }
+                else if(pair.first == 3){
+                    std::cout << CsControll::display({HiUra, pair.second, pair.second, HiUra}) << " "; 
+                    
+                }
+            }
+            std::cout << std::endl;
         }
         MAHJANG_HI SUTEHI;//捨てられた牌
+        bool alreadyReach = current_player.REACH_STICK || current_player.W_REACH_STICK;
 
         if(current_player.ID == 0){
             // あんかん
@@ -307,6 +337,7 @@ int Game::play_kyoku()
                 }
                 doramekuri();
                 TsumoAction(current_player);//嶺上のかわり
+                std::cout << CsControll::display(current_player.TEHAI) << CsControll::display(current_player.TSUMO) << std::endl;
                 KanCount++;
             }
             //リーチ
@@ -316,6 +347,7 @@ int Game::play_kyoku()
             //つも
             if(current_player.tsumoF()){
                 tsumo_tensu();
+
                 return 1;
             }
         }
@@ -323,13 +355,22 @@ int Game::play_kyoku()
 
 
 
-        if(current_player.ID == 0){
-            
-            std::cout << "捨てる牌を選んでください" << std::endl;
-            int ind = CsControll::index();
-            SUTEHI = current_player.discard(ind);
+        if(current_player.ID == 0)
+        {
+            if(alreadyReach)
+            {
+                SUTEHI = current_player.discard(13);
+                std::cout << "自摸切り" << std::endl;
+            }
+            else 
+            {
+                std::cout << "捨てる牌を選んでください" << std::endl;
+                int ind = CsControll::index();
+                SUTEHI = current_player.discard(ind);
+            }
         }
-        else {
+        else 
+        {
             SUTEHI = current_player.discard(13);
         }
         current_player.repai();
@@ -346,10 +387,12 @@ int Game::play_kyoku()
         //鳴き チーは後で実装
         for(PLAYER &p : players){
             if(p.ID == 0){
+                //ポン
                 if(p.ponF(SUTEHI)){
                     current_player_num = ponF(p.ID);
                     break;
                 }
+                //カン
                 if (p.minkanF(SUTEHI)){
                     if(KanCount == 4){
                         ryukyoku();

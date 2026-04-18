@@ -71,6 +71,10 @@ bool PLAYER::sepAnkoShunts(std::vector<MAHJANG_HI> tehai)
 bool PLAYER::bunseki1(std::vector<MAHJANG_HI> tehai, MAHJANG_HI another_hi)
 {
     std::vector<MAHJANG_HI> atama_list = atamaKouho(tehai, another_hi);
+    if(atama_list.size() == 7){
+        return true;
+    }
+
     tehai.push_back(another_hi);
     std::sort(tehai.begin(), tehai.end());
     for (MAHJANG_HI atama : atama_list)
@@ -115,6 +119,7 @@ std::vector<std::vector<MAHJANG_HI>> PLAYER::TemPai1(MAHJANG_HI another_hi)
     return result;
 }
 
+//リーチ
 bool PLAYER::reachF()
 {   
     if(REACH_STICK || W_REACH_STICK) return false;
@@ -127,14 +132,25 @@ bool PLAYER::reachF()
     if(all_size == 0){
         return false;
     }
+
+    for(int i = 0; i < TEHAI.size(); i++){
+        if(machis[i].empty()){
+            continue;
+        }
+        std::cout << CsControll::display(TEHAI[i]) << " : " << CsControll::display(machis[i]) << "  ";
+    }
+    std::cout << std::endl;
+
     std::cout << "reach(y/n)" << std::endl;
     char ans;
     std::cin >> ans;
     if (ans == 'y'){
-        if (W_REACH_FRAG)
+        if (W_REACH_FRAG){
             W_REACH_STICK = true;
-        else
+        }
+        else{
             REACH_STICK = true;
+        }
 
         SCORE -= 1000;
         return true;
@@ -144,18 +160,21 @@ bool PLAYER::reachF()
 
 bool PLAYER::ponF(MAHJANG_HI HI)
 {
-    if (std::count(TEHAI.begin(), TEHAI.end(), HI) > 2)
+    if (std::count(TEHAI.begin(), TEHAI.end(), HI) < 2)
     {
-        std::cout << "pon(y/n)" << std::endl;
-        char ans;
-        std::cin >> ans;
-        if (ans == 'y')
-        {
-            PON.push_back(HI);
-            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
-            TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
-            return true;
-        }
+        return false;
+    }
+    
+    std::cout << "pon(y/n)" << std::endl;
+    char ans;
+    std::cin >> ans;
+    if (ans == 'y')
+    {
+        PON.push_back(HI);
+        TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+        TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+        NAKI.push_back({0, HI});
+        return true;
     }
     return false;
 }
@@ -239,7 +258,7 @@ bool PLAYER::chiF(MAHJANG_HI HI)
 
 bool PLAYER::minkanF(MAHJANG_HI HI)
 {
-    if (std::count(TEHAI.begin(), TEHAI.end(), HI) < 3)
+    if (std::count(TEHAI.begin(), TEHAI.end(), HI) != 3)
     {
         return false;
     }
@@ -252,7 +271,7 @@ bool PLAYER::minkanF(MAHJANG_HI HI)
         TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
         TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
         TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
-
+        NAKI.push_back({2, HI});
         return true;
     }
     return false;
@@ -271,6 +290,8 @@ bool PLAYER::kakanF()
     {
         MINKAN.push_back(TSUMO);
         PON.erase(std::find(PON.begin(), PON.end(), TSUMO));
+        NAKI.push_back({2, TSUMO});
+
         return true;
     }
     return false;
@@ -296,6 +317,7 @@ bool PLAYER::ankanF()
             TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
             TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
             TEHAI.erase(std::find(TEHAI.begin(), TEHAI.end(), HI));
+            NAKI.push_back({2, HI});
             return true;
         }
     }
@@ -304,11 +326,6 @@ bool PLAYER::ankanF()
 
 MAHJANG_HI PLAYER::discard(int n)
 {
-    if (REACH_STICK)
-    {
-        return TSUMO;
-    }
-
     if (n >= TEHAI.size())
     {
         return TSUMO;

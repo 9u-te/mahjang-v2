@@ -21,7 +21,7 @@ public:
     std::vector<MAHJANG_HI> CHI;
     std::vector<MAHJANG_HI> MINKAN;
     std::vector<MAHJANG_HI> ANKAN;
-    // std::vector<MAHJANG_HI> KAWA;
+    std::vector<std::pair<int, MAHJANG_HI>> NAKI;
 
     std::vector<MAHJANG_HI> ANKO;
     std::vector<MAHJANG_HI> SHUNTSU;
@@ -38,7 +38,7 @@ public:
     bool ONE_SHOT_FRAG;
     bool W_REACH_FRAG;
 
-    PLAYER(int id) : ID(id), TEHAI(), PON(), CHI(), MINKAN(), ANKAN()
+    PLAYER(int id) : ID(id), TEHAI(), PON(), CHI(), MINKAN(), ANKAN(), NAKI()
     {
         SCORE = 25000;
     }
